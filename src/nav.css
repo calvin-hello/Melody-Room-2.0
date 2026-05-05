@@ -1,0 +1,125 @@
+.auth-page {
+    min-height: 100vh;
+    background: #454545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 330px;
+    min-height: 720px;
+    padding: 22px 32px;
+    box-sizing: border-box;
+    color: white;
+    background: linear-gradient(165deg, #6b1d86 0%, #2b0f46 45%, #10051f 100%);
+    font-family: Arial, sans-serif;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 120px;
+}
+
+.melody-title {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.logo-circle {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 95px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    color: #111;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+}
+
+.auth-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+
+.auth-fields label {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.auth-fields input {
+    width: 100%;
+    height: 38px;
+    border: none;
+    background: #f2f2f2;
+    padding: 0 10px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    box-sizing: border-box;
+    color: #111; 
+}
+
+.auth-fields input::placeholder {
+    color: #888;
+}
+
+.purple-btn {
+    width: 175px;
+    height: 56px;
+    display: block;
+    margin: 28px auto 18px;
+    border: none;
+    border-radius: 11px;
+    background: #8f57ff;
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.auth-bottom-text {
+    text-align: center;
+    font-size: 13px;
+    color: #d6cfe0;
+}
+
+.auth-bottom-text a {
+    color: white;
+    font-weight: 700;
+}
+
+/* SIGN UP STYLING */
+.signup-card .status-row {
+    margin-bottom: 105px;
+}
+
+.signup-melody-title {
+    margin-bottom: 80px;
+}
+
+.signup-fields input {
+    margin-bottom: 16px;
+}
+
+.signup-purple-btn {
+    margin-top: 32px;
+}
+
+/* SIGNUP ERROR MESSAGE  */
+.error-text {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+}
