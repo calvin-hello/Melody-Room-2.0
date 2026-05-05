@@ -1,0 +1,128 @@
+.search-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #000000, #4b1768, #13091f);
+  color: white;
+  font-family: Arial, sans-serif;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.search-nav {
+  margin-bottom: 24px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-button img {
+  width: 20px;
+  height: auto;
+  display: block;
+}
+
+.search-bar {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 14px;
+  color: white;
+  outline: none;
+}
+
+.search-bar::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.search-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.search-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.search-section-header h3 {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.search-section-header p {
+  font-size: 10px;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.search-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.search-title {
+  width: 120px;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.search-subtitle {
+  width: 70px;
+  height: 12px;
+  margin-top: 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.post-card {
+  height: 160px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+}
