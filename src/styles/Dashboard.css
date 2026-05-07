@@ -3,6 +3,8 @@
   background: #151020;
   color: white;
   font-family: Arial, sans-serif;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .top-nav {
@@ -50,11 +52,12 @@
 }
 
 .home-layout {
-  width: min(1150px, 92%);
+ padding:1rem;
+  /* width: min(1150px, 92%);
   margin: 32px auto;
   display: grid;
   grid-template-columns: 1fr 320px;
-  gap: 28px;
+  gap: 28px; */
 }
 
 .search-bar {
@@ -101,7 +104,7 @@
   color: #ddd;
 }
 
-.side-panel {
+/* .side-panel {
   background: #241331;
   border-radius: 14px;
   padding: 22px;
@@ -133,4 +136,4 @@
   .side-panel {
     position: static;
   }
-}
+} */

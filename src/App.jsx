@@ -1,28 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 
-<<<<<<< HEAD
 import Splash from "./components/Splash.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-=======
-import Profile from "./Profile.jsx";
-import Splash from "./Splash.jsx";
-import Login from "./Login.jsx";
-import Signup from "./Signup.jsx";
-import Dashboard from "./Dashboard.jsx";
-import ProtectedRoute from "./ProtectedRoute.jsx";
->>>>>>> 22ab485
-
-import "./App.css";
+import Profile from "./pages/Profile.jsx";
+import "./styles/App.css";
 
 export default function App() {
   return (
-<<<<<<< HEAD
-=======
-
->>>>>>> 22ab485
     <Routes>
       <Route path="/" element={<Splash />} />
       <Route path="/login" element={<Login />} />
@@ -36,8 +23,6 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-<<<<<<< HEAD
-=======
 
       <Route
         path="/profile"
@@ -47,7 +32,6 @@ export default function App() {
           </ProtectedRoute>
         }
       />
->>>>>>> 22ab485
     </Routes>
   );
 }

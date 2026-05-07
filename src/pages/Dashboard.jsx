@@ -1,4 +1,4 @@
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
@@ -17,9 +17,11 @@ export default function Dashboard() {
         <h1>Melody Room</h1>
 
         <nav>
-          <Link className="active">For You</Link>
-          <Link>Following</Link>
-          <Link>Profile</Link>
+          <Link className="active" to="/dashboard">
+            For You
+          </Link>
+          {/* <Link>Following</Link> */}
+          <Link to="/profile">Profile</Link>
           <button onClick={handleLogout}>Logout</button>
         </nav>
       </header>
@@ -49,12 +51,12 @@ export default function Dashboard() {
           </article>
         </section>
 
-        <aside className="side-panel">
+        {/* <aside className="side-panel">
           <h2>Comments</h2>
           <p><strong>{username}</strong> This is a comment...</p>
           <p><strong>musicfan42</strong> Love this post.</p>
           <p><strong>beatmaker</strong> Great recommendation.</p>
-        </aside>
+        </aside> */}
       </main>
     </div>
   );
