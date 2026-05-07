@@ -6,7 +6,6 @@ export default function BottomBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // Adds 'is-active' to the className when this tab matches the current URL.
   function tabClass(path) {
     if (pathname === path) {
       return 'bottom-tab is-active';
