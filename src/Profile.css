@@ -122,7 +122,6 @@
 .track-row {
   display: flex;
   gap: 39px;
-  overflow-x: auto;
 }
 
 .track {
@@ -163,7 +162,6 @@
 .post-card {
   position: relative;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .post-card img {

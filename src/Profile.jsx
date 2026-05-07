@@ -201,30 +201,91 @@ const handleCancel = () => {
           )}
         </div>
       )}
-      <div className="section">
-  <h3>Favourite Song</h3>
 
-  <div className="music-card">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYGfgThjkF_7BReF5JcX3plPXTPUjYNhkpCw&s" />
-    <div>
-      <h4>Touch the Sky</h4>
-      <p>Kanye West</p>
-    </div>
+
+
+{(editMode || !hiddenSections.includes("favSong")) && (
+  <div className="section">
+    <h3>Favourite Song</h3>
+
+    {editMode && !hiddenSections.includes("favSong") && (
+      <button
+        className="close-btn"
+        onClick={() => hideSection("favSong")}
+      >
+        ✕
+      </button>
+    )}
+
+    {hiddenSections.includes("favSong") ? (
+      <div className="hidden-box">
+        <p>Favourite Song is hidden from feed</p>
+
+        <button
+          className="add-btn"
+          onClick={() =>
+            setHiddenSections((prev) =>
+              prev.filter((s) => s !== "favSong")
+            )
+          }
+        >
+          Add to Feed
+        </button>
+      </div>
+    ) : (
+      <div className="music-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYGfgThjkF_7BReF5JcX3plPXTPUjYNhkpCw&s" />
+
+        <div>
+          <h4>Touch the Sky</h4>
+          <p>Kanye West</p>
+        </div>
+      </div>
+    )}
   </div>
-</div>
+)}
 
 
-<div className="section">
-  <h3>Favourite Album</h3>
+{(editMode || !hiddenSections.includes("favAlbum")) && (
+  <div className="section">
+    <h3>Favourite Album</h3>
 
-  <div className="music-card">
-    <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg" />
-    <div>
-      <h4>Graduation</h4>
-      <p>Kanye West</p>
-    </div>
+    {editMode && !hiddenSections.includes("favAlbum") && (
+      <button
+        className="close-btn"
+        onClick={() => hideSection("favAlbum")}
+      >
+        ✕
+      </button>
+    )}
+
+    {hiddenSections.includes("favAlbum") ? (
+      <div className="hidden-box">
+        <p>Favourite Album is hidden from feed</p>
+
+        <button
+          className="add-btn"
+          onClick={() =>
+            setHiddenSections((prev) =>
+              prev.filter((s) => s !== "favAlbum")
+            )
+          }
+        >
+          Add to Feed
+        </button>
+      </div>
+    ) : (
+      <div className="music-card">
+        <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg" />
+
+        <div>
+          <h4>Graduation</h4>
+          <p>Kanye West</p>
+        </div>
+      </div>
+    )}
   </div>
-</div>
+)}
 
       <div className="section">
         <h3>Posts</h3>
