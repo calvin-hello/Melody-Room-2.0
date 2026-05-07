@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "node src/server/server.js",
+    "server": "node server/server.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -21,8 +21,7 @@
     "mongoose": "^9.4.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.14.1",
-    "tailwindcss": "^4.2.4"
+    "react-router-dom": "^7.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
