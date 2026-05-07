@@ -5,24 +5,29 @@ import { Home, Music, Bookmark } from "lucide-react";
 
 
 export default function Profile() {
-  const savedUser = JSON.parse(localStorage.getItem("user")) || {
-    username: "goat.yeee",
-    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
-    followers: "77.1M",
-    following: 1,
-    bio: "Always looking for new music!",
-  };
+const storedUsername = localStorage.getItem("username");
+
+const savedUser = {
+  username: storedUsername,
+
+  avatar:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
+
+  followers: "77.1M",
+  following: 1,
+  bio: "Always looking for new music!",
+};
 
   const [user, setUser] = useState(savedUser);
   const [editMode, setEditMode] = useState(false);
 
-  const [hiddenSections, setHiddenSections] = useState([]);
-  const [savedHiddenSections, setSavedHiddenSections] = useState([]);
+const [hiddenSections, setHiddenSections] = useState([]);
+
 const hideSection = (section) => {
   setHiddenSections((prev) => [...prev, section]);
 };
+
 const handleSave = () => {
-  setSavedHiddenSections(hiddenSections); 
   setEditMode(false);
 };
 
@@ -201,30 +206,91 @@ const handleCancel = () => {
           )}
         </div>
       )}
-      <div className="section">
-  <h3>Favourite Song</h3>
 
-  <div className="music-card">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYGfgThjkF_7BReF5JcX3plPXTPUjYNhkpCw&s" />
-    <div>
-      <h4>Touch the Sky</h4>
-      <p>Kanye West</p>
-    </div>
+
+
+{(editMode || !hiddenSections.includes("favSong")) && (
+  <div className="section">
+    <h3>Favourite Song</h3>
+
+    {editMode && !hiddenSections.includes("favSong") && (
+      <button
+        className="close-btn"
+        onClick={() => hideSection("favSong")}
+      >
+        ✕
+      </button>
+    )}
+
+    {hiddenSections.includes("favSong") ? (
+      <div className="hidden-box">
+        <p>Favourite Song is hidden from feed</p>
+
+        <button
+          className="add-btn"
+          onClick={() =>
+            setHiddenSections((prev) =>
+              prev.filter((s) => s !== "favSong")
+            )
+          }
+        >
+          Add to Feed
+        </button>
+      </div>
+    ) : (
+      <div className="music-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYGfgThjkF_7BReF5JcX3plPXTPUjYNhkpCw&s" />
+
+        <div>
+          <h4>Touch the Sky</h4>
+          <p>Kanye West</p>
+        </div>
+      </div>
+    )}
   </div>
-</div>
+)}
 
 
-<div className="section">
-  <h3>Favourite Album</h3>
+{(editMode || !hiddenSections.includes("favAlbum")) && (
+  <div className="section">
+    <h3>Favourite Album</h3>
 
-  <div className="music-card">
-    <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg" />
-    <div>
-      <h4>Graduation</h4>
-      <p>Kanye West</p>
-    </div>
+    {editMode && !hiddenSections.includes("favAlbum") && (
+      <button
+        className="close-btn"
+        onClick={() => hideSection("favAlbum")}
+      >
+        ✕
+      </button>
+    )}
+
+    {hiddenSections.includes("favAlbum") ? (
+      <div className="hidden-box">
+        <p>Favourite Album is hidden from feed</p>
+
+        <button
+          className="add-btn"
+          onClick={() =>
+            setHiddenSections((prev) =>
+              prev.filter((s) => s !== "favAlbum")
+            )
+          }
+        >
+          Add to Feed
+        </button>
+      </div>
+    ) : (
+      <div className="music-card">
+        <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg" />
+
+        <div>
+          <h4>Graduation</h4>
+          <p>Kanye West</p>
+        </div>
+      </div>
+    )}
   </div>
-</div>
+)}
 
       <div className="section">
         <h3>Posts</h3>
