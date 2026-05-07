@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// FIXED PATHS (added ./src/)
 import TopNav from './src/components/TopNav.jsx';
 import BottomBar from './src/components/BottomBar.jsx';
-
 import Home from './src/pages/Home.jsx';
 import MusicPage from './src/pages/Music.jsx';
 import SavedPage from './src/pages/Saved.jsx';
