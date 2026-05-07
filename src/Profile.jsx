@@ -5,24 +5,29 @@ import { Home, Music, Bookmark } from "lucide-react";
 
 
 export default function Profile() {
-  const savedUser = JSON.parse(localStorage.getItem("user")) || {
-    username: "goat.yeee",
-    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
-    followers: "77.1M",
-    following: 1,
-    bio: "Always looking for new music!",
-  };
+const storedUsername = localStorage.getItem("username");
+
+const savedUser = {
+  username: storedUsername,
+
+  avatar:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
+
+  followers: "77.1M",
+  following: 1,
+  bio: "Always looking for new music!",
+};
 
   const [user, setUser] = useState(savedUser);
   const [editMode, setEditMode] = useState(false);
 
-  const [hiddenSections, setHiddenSections] = useState([]);
-  const [savedHiddenSections, setSavedHiddenSections] = useState([]);
+const [hiddenSections, setHiddenSections] = useState([]);
+
 const hideSection = (section) => {
   setHiddenSections((prev) => [...prev, section]);
 };
+
 const handleSave = () => {
-  setSavedHiddenSections(hiddenSections); 
   setEditMode(false);
 };
 
