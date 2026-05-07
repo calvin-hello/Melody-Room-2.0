@@ -1,0 +1,36 @@
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Home, Music, Bookmark } from 'lucide-react';
+
+export default function BottomBar() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // Adds 'is-active' to the className when this tab matches the current URL.
+  function tabClass(path) {
+    if (pathname === path) {
+      return 'bottom-tab is-active';
+    }
+    return 'bottom-tab';
+  }
+
+  return (
+    <div className="bottom-bar">
+      <button className={tabClass('/')} onClick={() => navigate('/')}>
+        <Home size={22}/>
+      </button>
+
+      <button className={tabClass('/music')} onClick={() => navigate('/music')}>
+        <Music size={22}/>
+      </button>
+
+      <button className={tabClass('/saved')} onClick={() => navigate('/saved')}>
+        <Bookmark size={22}/>
+      </button>
+
+      <button className={tabClass('/profile')} onClick={() => navigate('/profile')}>
+        <div className="profile-avatar">M</div>
+      </button>
+    </div>
+  );
+}
