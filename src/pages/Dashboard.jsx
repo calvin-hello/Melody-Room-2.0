@@ -21,8 +21,12 @@ export default function Dashboard() {
             For You
           </Link>
           {/* <Link>Following</Link> */}
+<<<<<<< HEAD
           <Link to="/profile">Profile</Link>
           <Link to="/search">🔍︎</Link>
+=======
+          <Link to={`/profile/${username}`}>Profile</Link>
+>>>>>>> 712e8d44d7ab229386ce6d47d39094ebffbe8135
           <button onClick={handleLogout}>Logout</button>
         </nav>
       </header>

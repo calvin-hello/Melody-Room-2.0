@@ -2,21 +2,20 @@ import { useState } from "react";
 import "../styles/Profile.css";
 import { Link } from "react-router-dom";
 import { Home, Music, Bookmark } from "lucide-react";
-
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
 const storedUsername = localStorage.getItem("username");
-
+const { id } = useParams();
 const savedUser = {
-  username: storedUsername,
+  username: id,
 
   avatar:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
-
-  followers: "77.1M",
-  following: 1,
   bio: "Always looking for new music!",
 };
+const isOwnProfile =
+  storedUsername === id;
 
   const [user, setUser] = useState(savedUser);
   const [editMode, setEditMode] = useState(false);
@@ -35,6 +34,10 @@ const handleCancel = () => {
   setUser(savedUser); 
   setEditMode(false);
 };
+
+const [following, setFollowing] = useState(false);
+const [followers, setFollowers] = useState(0);
+const [followingCount, setFollowingCount] = useState(0);
 
   const posts = [
     {
@@ -125,24 +128,40 @@ const handleCancel = () => {
       <div className="right-side">
         <div className="stats">
           <div>
-            <strong>{user.followers}</strong>
+            <strong>{followers}</strong>
             <p>followers</p>
           </div>
 
           <div>
-            <strong>{user.following}</strong>
+            <strong>{followingCount}</strong>
             <p>following</p>
           </div>
         </div>
 
         <p className="bio">{user.bio}</p>
 
-        <button
-          className="edit-btn"
-          onClick={() => setEditMode(true)}
-        >
-          Edit profile
-        </button>
+{isOwnProfile ? (
+  <button
+    className="edit-btn"
+    onClick={() => setEditMode(true)}
+  >
+    Edit profile
+  </button>
+) : (
+  <button
+    className="follow-btn"
+    onClick={() => {
+      setFollowing(!following);
+
+      setFollowers((prev) =>
+        following ? prev - 1 : prev + 1
+      );
+    }}
+  >
+    {following ? "Following" : "Follow"}
+  </button>
+)}
+
       </div>
     )}
   </div>
