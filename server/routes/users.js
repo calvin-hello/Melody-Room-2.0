@@ -1,6 +1,7 @@
-const express = require('express');
-const User = require('../models/user');
-const authMiddleware = require('../middleware/auth');
+import express from "express"
+import User from "../models/user.js";
+import authMiddleware from "../middleware/auth.js";
+
 const router = express.Router();
 
 // GET /api/users/:id
@@ -33,4 +34,4 @@ router.put('/follow/:id', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router

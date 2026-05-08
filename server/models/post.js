@@ -13,11 +13,6 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
 
-<<<<<<< HEAD
-export default Post
-
-/* From taiti101 code */
-=======
   content: {
     type: String,
     required: true,
@@ -67,4 +62,3 @@ export default Post
 });
 
 export default mongoose.model("Post", postSchema);
->>>>>>> d02c3eb317087e4eb7aa2b7b671e2aa67b0b2620
