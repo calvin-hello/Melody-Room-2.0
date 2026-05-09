@@ -23,7 +23,8 @@ export default function Login() {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.user.username);
-            navigate("/dashboard");
+            navigate("/home");
+            
         } catch (error) {
             console.error("Login failed", error);
         }
