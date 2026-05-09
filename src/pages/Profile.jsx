@@ -82,7 +82,7 @@ const [followingCount, setFollowingCount] = useState(0);
       </div>
 
 <div className="bottom-nav">
-  <Link to="/dashboard" className="nav-item">
+  <Link to="/home" className="nav-item">
     <Home size={26} strokeWidth={2} />
   </Link>
 
