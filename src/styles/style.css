@@ -244,9 +244,11 @@ img { display: block; max-width: 100%; }
 
 .post-image-wrap { position: relative; }
 
-.post-image {
+/* High specificity so Profile.css's `.post-card img { height: 140px }` doesn't override us */
+.post-card img.post-image {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: auto;             /* unset Profile.css's fixed 140px */
+  aspect-ratio: 4 / 3;      /* medium — change this number to resize */
   object-fit: cover;
   background: #241845;
 }

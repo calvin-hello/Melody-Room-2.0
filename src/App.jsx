@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Splash from "./components/Splash.jsx";
@@ -15,6 +16,21 @@ import "./styles/style.css";
 import TopNav from "./components/TopNav.jsx";
 import BottomBar from "./components/BottomBar.jsx";
 
+// Wrapper that owns the Following / For You tab state and passes it
+// to BOTH TopNav (so the buttons work) and Home (so the feed knows which tab).
+function HomeWithTabs() {
+  const [activeTab, setActiveTab] = useState("foryou");
+  return (
+    <div className="app-shell">
+      <TopNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <main className="page-content">
+        <Home activeTab={activeTab} />
+      </main>
+      <BottomBar />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <Routes>
@@ -26,13 +42,7 @@ export default function App() {
         path="/home"
         element={
           <ProtectedRoute>
-            <div className="app-shell">
-              <TopNav />
-              <main className="page-content">
-                <Home />
-              </main>
-              <BottomBar />
-            </div>
+            <HomeWithTabs />
           </ProtectedRoute>
         }
       />

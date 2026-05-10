@@ -4,7 +4,6 @@ import { MessageCircle, Search } from 'lucide-react';
 export default function TopNav({ activeTab, setActiveTab }) {
   const [search, setSearch] = useState('');
 
-  // Build classNames for the two tabs
   let followingClass = 'tab-btn';
   if (activeTab === 'following') {
     followingClass = 'tab-btn is-active';
@@ -15,7 +14,6 @@ export default function TopNav({ activeTab, setActiveTab }) {
     foryouClass = 'tab-btn is-active';
   }
 
-  // Choose the placeholder based on which tab is open
   let placeholder = 'Search anything music...';
   if (activeTab === 'foryou') {
     placeholder = 'Search anything posts...';
