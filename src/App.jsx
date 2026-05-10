@@ -6,6 +6,8 @@ import Signup from "./pages/Signup.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import Profile from "./pages/Profile.jsx";
 import Home from "./pages/Home.jsx";
+import Music from "./pages/Music.jsx";
+import Saved from "./pages/Saved.jsx";
 
 import "./styles/App.css";
 import "./styles/style.css";
@@ -43,6 +45,36 @@ export default function App() {
               <TopNav />
               <main className="page-content">
                 <Profile />
+              </main>
+              <BottomBar />
+            </div>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/music"
+        element={
+          <ProtectedRoute>
+            <div className="app-shell">
+              <TopNav />
+              <main className="page-content">
+                <Music />
+              </main>
+              <BottomBar />
+            </div>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/saved"
+        element={
+          <ProtectedRoute>
+            <div className="app-shell">
+              <TopNav />
+              <main className="page-content">
+                <Saved />
               </main>
               <BottomBar />
             </div>
