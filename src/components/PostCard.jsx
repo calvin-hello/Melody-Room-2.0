@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle, Send, User } from 'lucide-react';
+<<<<<<< HEAD
 import CommentDrawer from './CommentDrawer';
+=======
+import CommentDrawer from './CommentDrawer.jsx';
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
 
 export default function PostCard({ post, style }) {
   const [liked, setLiked] = useState(false);
@@ -9,20 +13,30 @@ export default function PostCard({ post, style }) {
 
   const isBlog = post.type === 'blog';
 
+<<<<<<< HEAD
   // Username with a fallback
+=======
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   let username = 'user.name123';
   if (post.author) {
     username = post.author;
   }
 
+<<<<<<< HEAD
   // Heart button class — adds 'is-liked' when liked
+=======
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   let heartClass = 'post-action-btn';
   if (liked) {
     heartClass = 'post-action-btn is-liked';
   }
 
+<<<<<<< HEAD
   // Action buttons (heart / comment / share). We use this twice below.
   // The heart's fill color — only filled when liked
+=======
+  
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   let heartFill = 'none';
   if (liked) {
     heartFill = 'currentColor';
@@ -42,8 +56,12 @@ export default function PostCard({ post, style }) {
     </div>
   );
 
+<<<<<<< HEAD
   // Image post: header is overlaid on top of the image.
   // Blog post: header is its own row above the body text.
+=======
+  
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   let header;
   if (isBlog) {
     header = (
@@ -64,10 +82,15 @@ export default function PostCard({ post, style }) {
     );
   }
 
+<<<<<<< HEAD
   // Decide what the body looks like
   let body;
   if (isBlog) {
     // Split the caption into paragraphs (skip empty lines)
+=======
+  let body;
+  if (isBlog) {
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
     const lines = post.caption.split('\n').filter((line) => line.length > 0);
 
     body = (
@@ -82,7 +105,10 @@ export default function PostCard({ post, style }) {
       </>
     );
   } else {
+<<<<<<< HEAD
     // Image post — show caption with a "more / less" toggle if it's long
+=======
+>>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
     const caption = post.caption || '';
     const isLong = caption.length > 100;
 

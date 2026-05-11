@@ -1,23 +1,19 @@
-import { useState } from "react";
+//still use fake data for posts, tracks etc but fetch user info from backend is done 11/5
+
+import { useEffect, useState } from "react";
 import "../styles/Profile.css";
-import { Link } from "react-router-dom";
-import { Home, Music, Bookmark } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; 
 
 export default function Profile() {
-const storedUsername = localStorage.getItem("username");
+const currentUser =
+  JSON.parse(localStorage.getItem("user"));
+
 const { id } = useParams();
-const savedUser = {
-  username: id,
 
-  avatar:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg/250px-Kanye_West_at_the_2009_Tribeca_Film_Festival_%28crop_2%29.jpg",
-  bio: "Always looking for new music!",
-};
 const isOwnProfile =
-  storedUsername === id;
+  currentUser.id === id;
 
-  const [user, setUser] = useState(savedUser);
+const [user, setUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
 const [hiddenSections, setHiddenSections] = useState([]);
@@ -31,13 +27,61 @@ const handleSave = () => {
 };
 
 const handleCancel = () => {
-  setUser(savedUser); 
   setEditMode(false);
 };
 
 const [following, setFollowing] = useState(false);
 const [followers, setFollowers] = useState(0);
 const [followingCount, setFollowingCount] = useState(0);
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/users/${id}`
+      );
+
+      const data = await res.json();
+
+      setUser(data);
+
+      setFollowers(data.followers.length);
+      setFollowingCount(data.following.length);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchUser();
+}, [id]);
+const handleFollow = async () => {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/api/users/follow/${id}`,
+      {
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          currentUserId: currentUser.id,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    setFollowers(data.followers);
+
+    setFollowing(!following);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   const posts = [
     {
@@ -65,7 +109,7 @@ const [followingCount, setFollowingCount] = useState(0);
       title: "Finally got to go to this concert!",
     },
   ];
-
+if (!user) return null;
   return (
     
     <div className="profile-page">
@@ -81,22 +125,6 @@ const [followingCount, setFollowingCount] = useState(0);
 
       </div>
 
-<div className="bottom-nav">
-  <Link to="/dashboard" className="nav-item">
-    <Home size={26} strokeWidth={2} />
-  </Link>
-
-  <div className="nav-item">
-    <Music size={26} strokeWidth={2} />
-  </div>
-
-  <div className="nav-item">
-    <Bookmark size={26} strokeWidth={2} />
-  </div>
-  <div className="nav-item profile-icon">
-    <img src={user.avatar} alt="pfp" />
-  </div>
-</div>
 
       <div className="profile-card">
   <div className="profile-top">
@@ -107,7 +135,7 @@ const [followingCount, setFollowingCount] = useState(0);
         <div className="name-row">
           <h2>{user.username}</h2>
 
-          <div className="edit-icon">✏️</div>
+          <div className="edit-icon">✏️</div> //edit avatar
         </div>
 
         <p className="handle">@{user.username}</p>
@@ -137,6 +165,7 @@ const [followingCount, setFollowingCount] = useState(0);
             <p>following</p>
           </div>
         </div>
+        
 
         <p className="bio">{user.bio}</p>
 
@@ -148,18 +177,12 @@ const [followingCount, setFollowingCount] = useState(0);
     Edit profile
   </button>
 ) : (
-  <button
-    className="follow-btn"
-    onClick={() => {
-      setFollowing(!following);
-
-      setFollowers((prev) =>
-        following ? prev - 1 : prev + 1
-      );
-    }}
-  >
-    {following ? "Following" : "Follow"}
-  </button>
+<button
+  className="follow-btn"
+  onClick={handleFollow}
+>
+  {following ? "Following" : "Follow"}
+</button>
 )}
 
       </div>
