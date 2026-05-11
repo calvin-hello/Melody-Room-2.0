@@ -2,25 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Send } from 'lucide-react';
 
-<<<<<<< HEAD
-// A bottom-sheet that slides up showing comments for a post.
 export default function CommentDrawer({ open, onClose, post, comments }) {
   const [draft, setDraft] = useState('');
 
-  // If no comments were passed in, default to an empty list.
-=======
-export default function CommentDrawer({ open, onClose, post, comments }) {
-  const [draft, setDraft] = useState('');
-
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   if (!comments) {
     comments = [];
   }
 
-<<<<<<< HEAD
-  // Lock background scroll while the drawer (comment section) is open.
-=======
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -29,10 +17,6 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
     }
   }, [open]);
 
-<<<<<<< HEAD
-  // If not open, render nothing.
-=======
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   if (!open) {
     return null;
   }
@@ -42,20 +26,10 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
     if (draft.trim() === '') {
       return;
     }
-<<<<<<< HEAD
-    // (In a real app, send the comment to the backend here)
-    setDraft('');
-  }
-
-  // We use the createPortal so that the drawer renders into <body> instead of ->
-  // -> inside the post card.
-  // (This is needed because the post card has a CSS transform that would trap a fixed-position child.)
-=======
     setDraft('');
   }
 
   
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   return createPortal(
     <>
       <div onClick={onClose} className="comment-backdrop" />

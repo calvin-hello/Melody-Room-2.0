@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Maximize2, Minimize2 } from 'lucide-react';
 import PostCard from '../components/PostCard';
-<<<<<<< HEAD
-=======
 import { Link, useNavigate } from "react-router-dom";
-
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
 
 // Posts shown in the "Following" feed
 const FOLLOWING_POSTS = [
@@ -83,8 +79,6 @@ const FORYOU_GRID = [
 export default function Home({ activeTab }) {
   // false = feed view (full post cards)
   // true  = grid view (compact tiles)
-<<<<<<< HEAD
-=======
   const navigate = useNavigate();
   const username = localStorage.getItem("username") || "user.name123";
 
@@ -94,7 +88,6 @@ export default function Home({ activeTab }) {
     navigate("/login");
   };
 
->>>>>>> aa2da32ad4f6608c4010289b4688b104a34e75d3
   const [expanded, setExpanded] = useState(false);
 
   // Pick the data based on which tab is active

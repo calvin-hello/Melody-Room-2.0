@@ -83,6 +83,7 @@ export default function Search() {
                         className="search-bar"
                         value={searchQuery}
                         onChange={handleSearch}
+                        autoFocus
                     />
                 </div>
             </header>
