@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
-const userRoutes = require('./routes/users');
+const userRoutes = require('./users');
 const musicRoutes = require('./routes/music');
 
 const app = express();

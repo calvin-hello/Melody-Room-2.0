@@ -1,6 +1,5 @@
-const express = require('express');
-const User = require('../models/user');
-const authMiddleware = require('../middleware/auth');
+import express from "express";
+import User from "../models/user.js";
 const router = express.Router();
 
 // GET /api/users/:id
@@ -15,11 +14,13 @@ router.get('/:id', async (req, res) => {
 });
 
 // PUT /api/users/follow/:id
-router.put('/follow/:id', authMiddleware, async (req, res) => {
+router.put('/follow/:id', async (req, res) => {
   try {
     const target = await User.findById(req.params.id);
-    const me = await User.findById(req.userId);
-    if (me.following.includes(target._id)) {
+    const me = await User.findById(req.body.currentUserId);
+    const alreadyFollowing = me.following.some((userId) =>userId.toString() === target.id);
+
+if (alreadyFollowing) {
       me.following.pull(target._id);
       target.followers.pull(me._id);
     } else {
@@ -33,4 +34,4 @@ router.put('/follow/:id', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
