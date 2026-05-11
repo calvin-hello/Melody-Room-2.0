@@ -5,10 +5,7 @@ import { Home, Music, Bookmark } from 'lucide-react';
 export default function BottomBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
-  const username = localStorage.getItem('username') || 'user';
-  const profilePath = `/profile/${username}`;
-
+  const currentUser =JSON.parse(localStorage.getItem("user"));
   function tabClass(path) {
     if (pathname === path) {
       return 'bottom-tab is-active';
@@ -30,11 +27,10 @@ export default function BottomBar() {
         <Bookmark size={22} />
       </button>
 
-      <button
-        className={pathname.startsWith('/profile') ? 'bottom-tab is-active' : 'bottom-tab'}
-        onClick={() => navigate(profilePath)}
-      >
-        <div className="profile-avatar">M</div>
+      <button className={tabClass(`/profile/${currentUser.id}`)}
+  onClick={() => navigate(`/profile/${currentUser.id}`)}
+>
+  <div className="profile-avatar">M</div>
       </button>
     </div>
   );
