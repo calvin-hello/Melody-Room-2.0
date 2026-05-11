@@ -6,6 +6,9 @@ export default function BottomBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const username = localStorage.getItem('username') || 'user';
+  const profilePath = `/profile/${username}`;
+
   function tabClass(path) {
     if (pathname === path) {
       return 'bottom-tab is-active';
@@ -27,7 +30,10 @@ export default function BottomBar() {
         <Bookmark size={22}/>
       </button>
 
-      <button className={tabClass('/profile')} onClick={() => navigate('/profile')}>
+      <button
+        className={pathname.startsWith('/profile') ? 'bottom-tab is-active' : 'bottom-tab'}
+        onClick={() => navigate(profilePath)}
+      >
         <div className="profile-avatar">M</div>
       </button>
     </div>
