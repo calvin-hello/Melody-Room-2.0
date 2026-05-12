@@ -21,7 +21,7 @@ export default function Dashboard() {
             For You
           </Link>
           {/* <Link>Following</Link> */}
-          <Link to="/profile">Profile</Link>
+          <Link to={`/profile/${currentUser.id}`}>Profile</Link>
           <button onClick={handleLogout}>Logout</button>
         </nav>
       </header>
