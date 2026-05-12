@@ -43,7 +43,7 @@ router.put("/avatar/:id", upload.single("avatar"), async (req, res) => {
       const result = await cloudinary.uploader.upload(req.file.path);
       const updatedUser = await User.findByIdAndUpdate( req.params.id,
         {avatar: result.secure_url,},
-        { new: true }
+        { returnDocument: "after" }
         );
 
       res.json(updatedUser);

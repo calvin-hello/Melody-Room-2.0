@@ -153,7 +153,7 @@ if (!user) return null;
 
       <div className="profile-card">
   <div className="profile-top">
-    <img src={user.avatar || "https://i1.sndcdn.com/avatars-000196113278-93p2dw-t240x240.jpg"} className="avatar" />
+    <img src={user.avatar} className="avatar" />
 
     {editMode ? (
       <div className="right-side edit-mode">
