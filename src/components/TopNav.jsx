@@ -15,7 +15,7 @@ export default function TopNav({ activeTab, setActiveTab }) {
   }
 
   let placeholder = 'Search anything music...';
-  if (activeTab === 'foryou') {
+  if (activeTab === 'fory ou') {
     placeholder = 'Search anything posts...';
   }
 

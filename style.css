@@ -234,7 +234,7 @@ img { display: block; max-width: 100%; }
 
 /* Post card */
 .post-card {
-  margin: 0 12px 14px;
+  margin: 0 12px 18px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -246,9 +246,14 @@ img { display: block; max-width: 100%; }
 
 .post-image {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 340px;
   object-fit: cover;
   background: #241845;
+}
+
+/* This is the recent add */
+.post-caption {
+  margin-top: 6px;
 }
 
 .post-image-overlay {
@@ -338,6 +343,7 @@ img { display: block; max-width: 100%; }
 
 .post-caption {
   margin: 0;
+  margin-top: 6px;
   font-size: 13px;
   line-height: 1.55;
   color: #b8b0c4;

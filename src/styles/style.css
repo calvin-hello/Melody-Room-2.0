@@ -232,14 +232,17 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Post card */
-.post-card {
+/* Post card — override Search.css's `display: flex` and other conflicts */
+.app-shell .post-card {
   margin: 0 12px 14px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
   animation: fadeUp 0.4s ease both;
+  display: block;            /* undo Search.css's display: flex */
+  height: auto;              /* undo Search.css's height: 160px */
+  cursor: default;           /* undo Search.css's cursor: pointer */
 }
 
 .post-image-wrap { position: relative; }

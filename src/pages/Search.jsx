@@ -13,12 +13,10 @@ export default function Search() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Cargar datos iniciales
     useEffect(() => {
         fetchSearchData();
     }, []);
 
-    // Función para consumir la API de búsqueda
     const fetchSearchData = async (query = "") => {
         try {
             setLoading(true);
@@ -43,19 +41,16 @@ export default function Search() {
         }
     };
 
-    // Manejar búsqueda con debounce
     const handleSearch = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
 
-        // Debounce: esperar 300ms antes de hacer la petición
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(() => {
             fetchSearchData(query);
         }, 300);
     };
 
-    // Formatear duración de canción (segundos a mm:ss)
     const formatDuration = (seconds) => {
         if (!seconds) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -63,7 +58,6 @@ export default function Search() {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    // Verificar si hay algún contenido
     const hasContent = artists.length > 0 || albums.length > 0 || songs.length > 0 || posts.length > 0;
 
     return (
