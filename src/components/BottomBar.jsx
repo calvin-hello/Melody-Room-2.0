@@ -6,6 +6,7 @@ export default function BottomBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const currentUser =JSON.parse(localStorage.getItem("user"));
+
   function tabClass(path) {
     if (pathname === path) {
       return 'bottom-tab is-active';

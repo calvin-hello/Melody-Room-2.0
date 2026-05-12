@@ -19,7 +19,6 @@ export default function PostCard({ post, style }) {
     heartClass = 'post-action-btn is-liked';
   }
 
-  
   let heartFill = 'none';
   if (liked) {
     heartFill = 'currentColor';
@@ -39,7 +38,6 @@ export default function PostCard({ post, style }) {
     </div>
   );
 
-  
   let header;
   if (isBlog) {
     header = (

@@ -55,6 +55,8 @@ export default function TopNav({ activeTab, setActiveTab }) {
             placeholder={placeholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            readOnly
+            onClick={() => window.location.href = '/search'}
           />
         </div>
       </div>

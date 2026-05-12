@@ -6,6 +6,7 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import Profile from "./pages/Profile.jsx";
+import Search from "./pages/Search.jsx";
 import Home from "./pages/Home.jsx";
 import Music from "./pages/Music.jsx";
 import Saved from "./pages/Saved.jsx";
@@ -88,6 +89,15 @@ export default function App() {
               </main>
               <BottomBar />
             </div>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/search"
+        element={
+          <ProtectedRoute>
+            <Search />
           </ProtectedRoute>
         }
       />
