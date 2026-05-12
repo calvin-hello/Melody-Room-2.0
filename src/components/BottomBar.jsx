@@ -5,6 +5,7 @@ import { Home, Music, Bookmark } from 'lucide-react';
 export default function BottomBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const currentUser =JSON.parse(localStorage.getItem("user"));
 
   const username = localStorage.getItem("username");
   
@@ -18,19 +19,21 @@ export default function BottomBar() {
   return (
     <div className="bottom-bar">
       <button className={tabClass('/home')} onClick={() => navigate('/home')}>
-        <Home size={22}/>
+        <Home size={22} />
       </button>
 
       <button className={tabClass('/music')} onClick={() => navigate('/music')}>
-        <Music size={22}/>
+        <Music size={22} />
       </button>
 
       <button className={tabClass('/saved')} onClick={() => navigate('/saved')}>
-        <Bookmark size={22}/>
+        <Bookmark size={22} />
       </button>
 
-      <button className={tabClass(`/profile/${username}`)} onClick={() => navigate(`/profile/${username}`)}>
-        <div className="profile-avatar">M</div>
+      <button className={tabClass(`/profile/${currentUser.id}`)}
+  onClick={() => navigate(`/profile/${currentUser.id}`)}
+>
+  <div className="profile-avatar">M</div>
       </button>
     </div>
   );

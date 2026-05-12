@@ -1,6 +1,7 @@
-const express = require('express');
-const Post = require('../models/Post');
-const authMiddleware = require('../middleware/auth');
+import express from 'express';
+import Post from '../models/post.js';
+import authMiddleware from '../middleware/auth.js';
+
 const router = express.Router();
 
 // GET /api/posts - Get all posts (feed)
@@ -53,4 +54,4 @@ router.post('/:id/comment', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router

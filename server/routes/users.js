@@ -1,8 +1,11 @@
-const express = require('express');
-const User = require('../models/user');
-const authMiddleware = require('../middleware/auth');
+import express from "express"
+import User from "../models/user.js";
+import multer from "multer";
+import cloudinary from "../config/cloudinary.js";
+//import authMiddleware from "../middleware/auth.js";
 const router = express.Router();
-
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
 // GET /api/users/:id
 router.get('/:id', async (req, res) => {
   try {
@@ -15,11 +18,13 @@ router.get('/:id', async (req, res) => {
 });
 
 // PUT /api/users/follow/:id
-router.put('/follow/:id', authMiddleware, async (req, res) => {
+router.put('/follow/:id', async (req, res) => {
   try {
     const target = await User.findById(req.params.id);
-    const me = await User.findById(req.userId);
-    if (me.following.includes(target._id)) {
+    const me = await User.findById(req.body.currentUserId);
+    const alreadyFollowing = me.following.some((userId) =>userId.toString() === target.id);
+
+if (alreadyFollowing) {
       me.following.pull(target._id);
       target.followers.pull(me._id);
     } else {
@@ -33,4 +38,20 @@ router.put('/follow/:id', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+router.put("/avatar/:id", upload.single("avatar"), async (req, res) => {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const updatedUser = await User.findByIdAndUpdate( req.params.id,
+        {avatar: result.secure_url,},
+        { returnDocument: "after" }
+        );
+
+      res.json(updatedUser);
+
+    } catch (err) {
+      res.status(500).json({message: err.message});
+    }
+  }
+);
+
+export default router;

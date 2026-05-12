@@ -1,31 +1,17 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
 
-const authRoutes = require('./routes/auth');
-const postRoutes = require('./routes/posts');
-const userRoutes = require('./routes/users');
-const musicRoutes = require('./routes/music');
+import authRoutes from './authRoutes.js';
+import postRoutes from './posts.js';
+import userRoutes from './users.js';
+import musicRoutes from './Music.js';
+import searchRoutes from './search.js';
 
-const app = express();
+const router = express.Router();
 
-app.use(cors());
-app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+router.use('/api/auth', authRoutes);
+router.use('/api/posts', postRoutes);
+router.use('/api/users', userRoutes);
+router.use('/api/music', musicRoutes);
+router.use('/api/search', searchRoutes);
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/music', musicRoutes);
-
-// MongoDB connection
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/melody-app';
-
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error('MongoDB Error:', err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🎵 Melody Server running on port ${PORT}`));
+export default router;

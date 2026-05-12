@@ -3,7 +3,6 @@ import { Maximize2, Minimize2 } from 'lucide-react';
 import PostCard from '../components/PostCard';
 import { Link, useNavigate } from "react-router-dom";
 
-
 // Posts shown in the "Following" feed
 const FOLLOWING_POSTS = [
   {

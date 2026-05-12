@@ -1,4 +1,5 @@
-const express = require('express');
+import express from "express"
+
 const router = express.Router();
 
 // GET /api/music/trending - Mock trending music data
@@ -10,4 +11,4 @@ router.get('/trending', async (req, res) => {
   ]);
 });
 
-module.exports = router;
+export default router

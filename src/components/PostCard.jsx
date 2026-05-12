@@ -9,20 +9,16 @@ export default function PostCard({ post, style }) {
 
   const isBlog = post.type === 'blog';
 
-  // Username with a fallback
   let username = 'user.name123';
   if (post.author) {
     username = post.author;
   }
 
-  // Heart button class — adds 'is-liked' when liked
   let heartClass = 'post-action-btn';
   if (liked) {
     heartClass = 'post-action-btn is-liked';
   }
 
-  // Action buttons (heart / comment / share). We use this twice below.
-  // The heart's fill color — only filled when liked
   let heartFill = 'none';
   if (liked) {
     heartFill = 'currentColor';
@@ -42,8 +38,6 @@ export default function PostCard({ post, style }) {
     </div>
   );
 
-  // Image post: header is overlaid on top of the image.
-  // Blog post: header is its own row above the body text.
   let header;
   if (isBlog) {
     header = (
@@ -64,10 +58,8 @@ export default function PostCard({ post, style }) {
     );
   }
 
-  // Decide what the body looks like
   let body;
   if (isBlog) {
-    // Split the caption into paragraphs (skip empty lines)
     const lines = post.caption.split('\n').filter((line) => line.length > 0);
 
     body = (
@@ -82,7 +74,6 @@ export default function PostCard({ post, style }) {
       </>
     );
   } else {
-    // Image post — show caption with a "more / less" toggle if it's long
     const caption = post.caption || '';
     const isLong = caption.length > 100;
 

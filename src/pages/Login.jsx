@@ -11,7 +11,7 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:5000/login", {
+            const response = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
@@ -25,7 +25,7 @@ export default function Login() {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.user.username);
-
+            localStorage.setItem("user",JSON.stringify(data.user));
             navigate("/home");
             
         } catch (error) {
