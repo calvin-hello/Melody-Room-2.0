@@ -1,5 +1,3 @@
-//still use fake data for posts, tracks etc but fetch user info from backend is done 11/5
-
 import { useEffect, useState } from "react";
 import "../styles/Profile.css";
 import { useParams } from "react-router-dom"; 
@@ -82,6 +80,33 @@ const handleFollow = async () => {
   }
 };
 
+const handleAvatarUpload = async (e) => {
+  try {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+
+    formData.append("avatar", file);
+
+    const res = await fetch(
+      `http://localhost:5000/api/users/avatar/${currentUser.id}`,
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
+
+    const data = await res.json();
+
+    setUser(data);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   const posts = [
     {
@@ -128,14 +153,23 @@ if (!user) return null;
 
       <div className="profile-card">
   <div className="profile-top">
-    <img src={user.avatar} className="avatar" />
+    <img src={user.avatar || "https://i1.sndcdn.com/avatars-000196113278-93p2dw-t240x240.jpg"} className="avatar" />
 
     {editMode ? (
       <div className="right-side edit-mode">
         <div className="name-row">
           <h2>{user.username}</h2>
 
-          <div className="edit-icon">✏️</div> //edit avatar
+          <label className="edit-icon">
+           ✏️
+
+        <input
+         type="file"
+         accept="image/*"
+         style={{ display: "none" }}
+          onChange={handleAvatarUpload}
+          />
+          </label> {/* change the avatar */}
         </div>
 
         <p className="handle">@{user.username}</p>

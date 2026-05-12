@@ -1,9 +1,11 @@
 import express from "express"
 import User from "../models/user.js";
-import authMiddleware from "../middleware/auth.js";
-
+import multer from "multer";
+import cloudinary from "../config/cloudinary.js";
+//import authMiddleware from "../middleware/auth.js";
 const router = express.Router();
-
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
 // GET /api/users/:id
 router.get('/:id', async (req, res) => {
   try {
@@ -36,4 +38,20 @@ if (alreadyFollowing) {
   }
 });
 
-export default router
+router.put("/avatar/:id", upload.single("avatar"), async (req, res) => {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const updatedUser = await User.findByIdAndUpdate( req.params.id,
+        {avatar: result.secure_url,},
+        { new: true }
+        );
+
+      res.json(updatedUser);
+
+    } catch (err) {
+      res.status(500).json({message: err.message});
+    }
+  }
+);
+
+export default router;
