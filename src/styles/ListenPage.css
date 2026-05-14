@@ -1,0 +1,97 @@
+.listen-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #25113f, #13001f);
+  color: white;
+}
+
+.listen-content {
+  min-height: 100vh;
+  padding: 22px;
+}
+
+.listen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listen-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.listen-icon-btn {
+  color: white;
+}
+
+.listen-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 22px;
+  margin: 32px 0 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.listen-info h1 {
+  font-size: 32px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.listen-info p {
+  margin-top: 8px;
+  color: #c9bfd8;
+  font-size: 18px;
+}
+
+.fake-progress {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #c9bfd8;
+  font-size: 13px;
+}
+
+.progress-line {
+  flex: 1;
+  height: 4px;
+  background: #ffffff55;
+  border-radius: 999px;
+  position: relative;
+}
+
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -4px;
+  left: 45%;
+}
+
+.player-controls {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.play-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: white;
+  color: #13001f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listen-loading {
+  padding: 24px;
+  color: white;
+}

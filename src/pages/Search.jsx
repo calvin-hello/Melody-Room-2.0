@@ -106,7 +106,7 @@ export default function Search() {
                                         <div
                                             key={artist._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/artist/${artist._id}`)}
+                                            onClick={() => navigate(`/listen/artist/${artist._id}`)}
                                         >
                                             <div
                                                 className="search-thumb artist-thumb"
@@ -148,7 +148,7 @@ export default function Search() {
                                         <div
                                             key={album._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/album/${album._id}`)}
+                                            onClick={() => navigate(`/listen/album/${album._id}`)}
                                         >
                                             <div
                                                 className="search-thumb"
@@ -191,7 +191,7 @@ export default function Search() {
                                         <div
                                             key={song._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/song/${song._id}`)}
+                                            onClick={() => navigate(`/listen/song/${song._id}`)}
                                         >
                                             <div
                                                 className="search-thumb"

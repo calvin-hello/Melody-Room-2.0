@@ -65,4 +65,35 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+router.get("/song/:id", async (req, res) => {
+  const response = await fetch(`https://api.deezer.com/track/${req.params.id}`);
+  const data = await response.json();
+
+  res.json({
+    id: data.id,
+    title: data.title,
+    artist: data.artist?.name,
+    coverImage: data.album?.cover_big,
+    preview: data.preview,
+    duration: data.duration,
+  });
+});
+
+router.get("/artist/:id", async (req, res) => {
+  try {
+    const response = await fetch(`https://api.deezer.com/artist/${req.params.id}`);
+    const data = await response.json();
+
+    res.json({
+      id: data.id,
+      name: data.name,
+      image: data.picture_big,
+      type: "artist",
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router;

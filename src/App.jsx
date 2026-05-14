@@ -10,6 +10,7 @@ import Search from "./pages/Search.jsx";
 import Home from "./pages/Home.jsx";
 import Music from "./pages/Music.jsx";
 import Saved from "./pages/Saved.jsx";
+import ListenPage from "./pages/ListenPage.jsx";
 
 import "./styles/App.css";
 import "./styles/style.css";
@@ -101,6 +102,8 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/listen/:type/:id" element={<ListenPage />} />
     </Routes>
   );
 }
