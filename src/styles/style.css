@@ -1,34 +1,50 @@
+/* Pull in the two web fonts used across the app:
+   - Syne   → display/headline font (used on titles + nav tabs)
+   - DM Sans → body/UI font (everything else)                       */
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-/* Colors */
+/* ----------------------------------------------------------------
+   Design tokens (CSS variables for the purple Figma palette)
+   Defined once on :root, then reused anywhere via var(--name).
+   Change a value here and it updates the whole app.
+   ---------------------------------------------------------------- */
 :root {
-  --bg: #1A1030;
-  --bg-card: #2D1A55;
-  --purple-deep: #582474;
-  --purple: #915FFF;
-  --purple-glow: #a87fff;
-  --text: #D8D6D9;
-  --text-muted: #7a6e94;
-  --border: rgba(145, 95, 255, 0.25);
-  --danger: #e05c7a;
+  --bg: #1A1030;                              /* app background — dark purple */
+  --bg-card: #2D1A55;                         /* cards / panels — slightly lighter */
+  --purple-deep: #582474;                     /* avatars / muted purple accents */
+  --purple: #915FFF;                          /* primary brand purple */
+  --purple-glow: #a87fff;                     /* hover / accent purple */
+  --text: #D8D6D9;                            /* default body text */
+  --text-muted: #7a6e94;                      /* secondary / muted text */
+  --border: rgba(145, 95, 255, 0.25);         /* subtle purple borders */
+  --danger: #e05c7a;                          /* like / error red-pink */
 }
 
-/* Reset */
+/* ----------------------------------------------------------------
+   Global reset + base element styles
+   ---------------------------------------------------------------- */
+
+/* include padding + border in every element's declared width/height */
 * { box-sizing: border-box; }
 
+/* fill the viewport so the app-shell can be height: 100vh,
+   black page background framing the centered phone-width app */
 html, body, #root {
   height: 100%;
   margin: 0;
   background: #000;
 }
 
+/* default font + text color for the whole page */
 body {
   font-family: 'DM Sans', sans-serif;
   color: var(--text);
 }
 
+/* hide the scrollbar in Chrome/Safari (cleaner mobile look) */
 ::-webkit-scrollbar { display: none; }
 
+/* reset every <button> so it looks like plain text we can style ourselves */
 button {
   background: none;
   border: none;
@@ -38,10 +54,16 @@ button {
   padding: 0;
 }
 
+/* images never overflow their container; remove the inline-baseline gap */
 img { display: block; max-width: 100%; }
 
 
-/* App layout */
+/* ----------------------------------------------------------------
+   App layout — centers a phone-width frame on any screen
+   ---------------------------------------------------------------- */
+
+/* The outer "phone shell". 393px is the iPhone 14 width.
+   Everything else (top nav, bottom bar, content) lives inside this. */
 .app-shell {
   max-width: 393px;
   margin: 0 auto;
@@ -50,58 +72,70 @@ img { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow: hidden;       /* nothing escapes the phone frame */
 }
 
+/* The scrollable middle area between the fixed top nav and bottom bar.
+   We pad it so content doesn't slide under those fixed bars. */
 .page-content {
   flex: 1;
   overflow-y: auto;
-  padding-top: 108px;    /* clears the status bar (36px) + top nav (64px) + breathing room */
+  padding-top: 108px;    /* clears the status bar (36px) + top nav (64px) + a little breathing room */
   padding-bottom: 84px;  /* clears the bottom bar */
 }
 
 
-/* Fake iOS status bar — 9:41 + signal/wifi/battery row at the very top */
+/* ----------------------------------------------------------------
+   Fake iOS status bar
+   The thin black strip at the very top of the screen showing
+   "9:41" on the left and signal/wifi/battery icons on the right.
+   ---------------------------------------------------------------- */
 .status-bar {
-  position: fixed;
+  position: fixed;                              /* pinned to the top, never scrolls away */
   top: 0;
-  left: 50%;
+  left: 50%;                                    /* center under the phone-width frame */
   transform: translateX(-50%);
   width: 100%;
   max-width: 393px;
   height: 36px;
-  z-index: 51;                                       /* above the top nav */
-  background: #0a0414;                              /* black with a hint of dark purple */
+  z-index: 51;                                  /* above the top nav (top nav is z-index 50) */
+  background: #0a0414;                          /* near-black with a hint of dark purple */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;               /* time on the left, icons on the right */
   padding: 0 22px;
   color: #fff;
   font-family: 'DM Sans', sans-serif;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);      /* strong dark shadow */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);   /* strong dark drop shadow below the bar */
 }
+
+/* The "9:41" text on the left of the status bar */
 .status-time {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* Wrapper for the signal/wifi/battery cluster on the right */
 .status-icons {
   display: flex;
   align-items: center;
   gap: 6px;
   color: #fff;
 }
-/* make the lucide icons look filled / iOS-style */
 
-/* Signal bars + Wifi — fill the inside so they read as solid white shapes */
+/* --- Make the lucide-react icons look like real iOS status icons --- */
+
+/* Signal bars + Wifi — fill the inside with white so the bars/arcs
+   read as solid shapes instead of thin outlines. */
 .status-icons .lucide-signal-high,
 .status-icons .lucide-wifi {
-  fill: currentColor;
+  fill: currentColor;        /* uses the parent's `color` (white) as the fill color */
   stroke-width: 1.5;
 }
 
-/* Battery — leave it as lucide's default outline + level bars (no fill).
-   Just give it a touch more size and a slightly thicker stroke so it
-   matches the visual weight of the signal/wifi icons. */
+/* Battery — keep lucide's default outline + level bars (no fill),
+   just a touch bigger and slightly thicker stroke so it visually
+   matches the weight of the signal/wifi icons next to it. */
 .status-icons .lucide-battery-full {
   width: 24px;
   height: 24px;
@@ -109,10 +143,14 @@ img { display: block; max-width: 100%; }
   fill: none;
 }
 
-/* Top navigation — pushed down 36px to sit below the status bar */
+/* ----------------------------------------------------------------
+   Top navigation bar
+   The row with [ + ]  [ Following | For You ]  [ message icon ]
+   Pinned right under the fake iOS status bar.
+   ---------------------------------------------------------------- */
 .top-nav {
   position: fixed;
-  top: 36px;
+  top: 36px;                                    /* sits just below the 36px status bar */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -120,31 +158,40 @@ img { display: block; max-width: 100%; }
   height: 64px;
   z-index: 50;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-end;                        /* push the row to the bottom of the 64px area */
   padding: 0 16px 8px;
-  background: #0a0414;                              /* black with a hint of dark purple */
+  background: #0a0414;                          /* same near-black as the status bar */
   border: none;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);     /* strong dark shadow falling below the nav */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);   /* drop shadow under the nav so it lifts off the page */
 }
 
-/* Center the Following / For You tabs evenly within the top nav */
+/* The "row" inside .top-nav is positioned relative so the tabs
+   can be absolutely centered on top of it without affecting the
+   layout of the + button and message icon on either side.       */
 .top-nav .top-nav-row {
   position: relative;
 }
+
+/* Absolutely-positioned "Following | For You" cluster.
+   left:50% + transform:translate(-50%,-50%) = perfectly centered. */
 .top-nav .nav-tabs {
   position: absolute;
   left: 50%;
-  top: 30%;                  /* moved up a bit from 50% so tabs sit higher in the bar */
+  top: 30%;                  /* shifted up from 50% so the tabs sit a bit higher */
   transform: translate(-50%, -50%);
-  white-space: nowrap;       /* never wrap the tabs onto two lines */
-}
-.top-nav .tab-btn {
-  min-width: 96px;           /* wider so 'For You' fits on one line at the bigger size */
-  text-align: center;
-  white-space: nowrap;
-  font-size: 17px;           /* bigger tab text */
+  white-space: nowrap;       /* keep both tabs on one line */
 }
 
+/* Make each tab button wide enough to hold "For You" without wrapping
+   to a second line at the bigger 17px font size. */
+.top-nav .tab-btn {
+  min-width: 96px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 17px;
+}
+
+/* The flex row inside the top nav: + button on the left, message on the right */
 .top-nav-row {
   display: flex;
   justify-content: space-between;
@@ -152,30 +199,35 @@ img { display: block; max-width: 100%; }
   width: 100%;
 }
 
+/* The "+" button on the left of the top nav */
 .nav-add-btn {
   width: 44px;
   height: 44px;
-  font-size: 40px;           /* even bigger + symbol */
+  font-size: 40px;           /* big chunky + symbol */
   line-height: 1;
-  color: #b8b0c4;
+  color: #e5e3e8;            /* soft off-white */
 }
 
+/* The Following | For You tab container (flex row of 2 buttons + divider) */
 .nav-tabs {
   display: flex;
   gap: 6px;
   font-family: 'Syne', sans-serif;
   font-weight: 600;
-  font-size: 17px;           /* bumped from 14px to make tabs bigger */
+  font-size: 17px;
 }
 
+/* Individual tab button — default soft off-white (was muted purple) */
 .tab-btn {
-  position: relative;
+  position: relative;        /* lets us absolutely position the underline inside */
   padding: 4px 12px;
-  color: var(--text-muted);
+  color: #e5e3e8;
 }
 
+/* Active tab turns bright white */
 .tab-btn.is-active { color: #fff; }
 
+/* The purple underline that sits beneath the currently-active tab */
 .tab-underline {
   position: absolute;
   bottom: -2px;
@@ -186,40 +238,56 @@ img { display: block; max-width: 100%; }
   border-radius: 9999px;
 }
 
+/* The "|" divider between Following and For You */
 .tab-divider {
-  color: var(--text-muted);
-  opacity: 0.4;
+  color: #fff;               /* pure white */
+  opacity: 1;
 }
 
+/* The message-bubble icon button on the right of the top nav */
 .nav-bell {
-  position: relative;
-  width: 40px;
-  height: 40px;
+  position: relative;        /* anchor for the absolutely-positioned blue dot */
+  width: 44px;               /* same size as the + button to keep the row balanced */
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #b8b0c4;
-}
-/* flip the message bubble horizontally so the tail sits on the opposite side */
-.nav-bell svg {
-  transform: scaleX(-1);
+  color: #e5e3e8;            /* soft off-white to match + and tabs */
 }
 
+/* Size the message icon SVG and mirror it horizontally so the tail
+   sits on the opposite side (matching the design reference). */
+.nav-bell svg {
+  width: 26px;
+  height: 26px;
+  transform: scaleX(-1);     /* flip left↔right */
+}
+
+/* Legacy size for an older bell icon — kept for safety */
 .nav-bell-icon { width: 22px; height: 22px; }
 
+/* The little blue notification dot that sits on the top-right corner
+   of the message icon. Position is tuned so the dot kisses the icon
+   edge instead of floating outside the nav-bell container. */
 .nav-bell-dot {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 7px;
-  height: 7px;
-  background: var(--purple);
-  border-radius: 9999px;
-  border: 1px solid var(--bg);
+  top: 7px;
+  right: 7px;
+  width: 11px;
+  height: 11px;
+  background: #3b82f6;       /* blue notification dot */
+  border-radius: 9999px;     /* perfect circle */
+  border: 1px solid var(--bg); /* thin app-bg ring so the dot pops off the icon */
 }
 
 
-/* Search bar — pushed down: status bar (36) + top nav (64) */
+/* ----------------------------------------------------------------
+   Search bar (sits below the top nav)
+   Sticky so it stays visible as the feed scrolls.
+   ---------------------------------------------------------------- */
+
+/* The container that pins itself just below the top nav.
+   top: 100px = status bar (36) + top nav (64). */
 .search-wrapper {
   position: sticky;
   top: 100px;
@@ -227,8 +295,10 @@ img { display: block; max-width: 100%; }
   padding: 10px 16px 6px;
 }
 
+/* Anchor for the search magnifier icon, which sits inside the input */
 .search-relative { position: relative; }
 
+/* The magnifier icon overlay inside the input */
 .search-icon {
   position: absolute;
   left: 16px;
@@ -236,12 +306,13 @@ img { display: block; max-width: 100%; }
   transform: translateY(-50%);
   width: 18px;
   height: 18px;
-  pointer-events: none;
+  pointer-events: none;      /* clicks pass through to the input */
 }
 
+/* The actual search <input> — pill-shaped, faint purple tint */
 .search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
+  padding: 10px 16px 10px 40px;                   /* 40px left padding leaves room for the icon */
   background: rgba(145, 95, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 9999px;
@@ -250,11 +321,15 @@ img { display: block; max-width: 100%; }
   outline: none;
 }
 
+/* Placeholder + focus colors */
 .search-input::placeholder { color: var(--text-muted); }
 .search-input:focus { border-color: #fff; }
 
 
-/* Bottom bar */
+/* ----------------------------------------------------------------
+   Bottom bar (the app's main navigation row)
+   Holds Home / Music / Saved / Profile tabs, pinned to the bottom.
+   ---------------------------------------------------------------- */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -267,25 +342,29 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   padding: 0 8px;
-  background: rgba(145, 95, 255, 0.08);
-  backdrop-filter: blur(20px);
+  background: rgba(145, 95, 255, 0.08);            /* faint purple wash */
+  backdrop-filter: blur(20px);                     /* frosted-glass effect over content behind */
   border-top: 1px solid rgba(145, 95, 255, 0.2);
-  box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.85);  /* strong dark shadow rising above the bottom bar */
+  box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.85);    /* dark shadow rising above the bar */
 }
 
+/* Each tab cell — equal width, centered icon */
 .bottom-tab {
   flex: 1;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  color: var(--text-muted);                        /* inactive = muted purple */
 }
 
+/* Active tab turns bright brand purple */
 .bottom-tab.is-active { color: var(--purple); }
 
+/* Default sizing for the bottom-bar icons */
 .bottom-tab-icon { width: 22px; height: 22px; }
 
+/* Tiny circular avatar shown on the profile tab */
 .profile-avatar {
   width: 28px;
   height: 28px;
@@ -299,35 +378,46 @@ img { display: block; max-width: 100%; }
   color: #fff;
 }
 
+/* When the profile tab is the active route, ring it in brand purple */
 .profile-avatar.is-active {
   box-shadow: 0 0 0 2px var(--purple);
 }
 
 
-/* Post card — override Search.css's `display: flex` and other conflicts */
+/* ----------------------------------------------------------------
+   Post card (used by the feed view on the home page)
+   The selector starts with `.app-shell` for higher specificity so
+   it can override conflicting rules from teammates' Search.css /
+   Profile.css files.
+   ---------------------------------------------------------------- */
 .app-shell .post-card {
   margin: 0 12px 14px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
-  animation: fadeUp 0.4s ease both;
-  display: block;            /* undo Search.css's display: flex */
-  height: auto;              /* undo Search.css's height: 160px */
+  animation: fadeUp 0.4s ease both;       /* gentle fade-up entry */
+  display: block;            /* undo Search.css's display: flex (which laid posts horizontally) */
+  height: auto;              /* undo Search.css's fixed height: 160px */
   cursor: default;           /* undo Search.css's cursor: pointer */
 }
 
+/* Wrapper around the post image — anchors the dark overlay on top of it */
 .post-image-wrap { position: relative; }
 
-/* High specificity so Profile.css's `.post-card img { height: 140px }` doesn't override us */
+/* Post image sizing.
+   High specificity (`.post-card img.post-image`) so Profile.css's
+   `.post-card img { height: 140px }` doesn't win the cascade fight. */
 .post-card img.post-image {
   width: 100%;
   height: auto;             /* unset Profile.css's fixed 140px */
-  aspect-ratio: 4 / 3;      /* medium — change this number to resize */
-  object-fit: cover;
-  background: #241845;
+  aspect-ratio: 4 / 3;      /* medium image height — change this ratio to resize all post images */
+  object-fit: cover;        /* crop to fill instead of squishing */
+  background: #241845;      /* purple placeholder while images load */
 }
 
+/* Dark gradient overlay laid over the top of the post image, holds the
+   small avatar + title text so they're readable against any photo. */
 .post-image-overlay {
   position: absolute;
   top: 0;
@@ -340,6 +430,7 @@ img { display: block; max-width: 100%; }
   background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
 }
 
+/* Round avatar used inside the post header / overlay */
 .post-avatar {
   width: 36px;
   height: 36px;
@@ -350,11 +441,12 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 0;            /* don't let the avatar squish on narrow widths */
 }
 
 .post-avatar-icon { width: 18px; height: 18px; }
 
+/* The title text overlay on top of an image post */
 .post-image-title {
   flex: 1;
   margin: 0;
@@ -364,6 +456,7 @@ img { display: block; max-width: 100%; }
   color: #fff;
 }
 
+/* Header row used by blog-style posts (avatar + title, no image) */
 .post-header {
   padding: 12px 14px;
   display: flex;
@@ -371,6 +464,7 @@ img { display: block; max-width: 100%; }
   gap: 10px;
 }
 
+/* The blog post title text */
 .post-title {
   flex: 1;
   margin: 0;
@@ -380,10 +474,13 @@ img { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* Bottom section of a post card holding username + caption + actions */
 .post-footer {
   padding: 0 14px 12px;
 }
 
+/* Row that puts the username on the left and the heart/comment/share
+   buttons on the right of an image-style post */
 .post-meta-row {
   margin: 8px 0 4px;
   display: flex;
@@ -391,6 +488,7 @@ img { display: block; max-width: 100%; }
   align-items: center;
 }
 
+/* The @username text under a post */
 .post-username {
   margin: 0;
   font-size: 12.5px;
@@ -398,21 +496,25 @@ img { display: block; max-width: 100%; }
   color: var(--purple);
 }
 
+/* The like/comment/share button cluster */
 .post-actions {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
+/* A single action icon button (heart, comment, share) */
 .post-action-btn {
   display: flex;
   color: #b8b0c4;
 }
 
+/* The heart turns red-pink once the user has liked the post */
 .post-action-btn.is-liked { color: var(--danger); }
 
 .post-action-icon { width: 18px; height: 18px; }
 
+/* The caption text under an image post */
 .post-caption {
   margin: 0;
   font-size: 13px;
@@ -420,11 +522,13 @@ img { display: block; max-width: 100%; }
   color: #b8b0c4;
 }
 
+/* "more"/"less" toggle at the end of a long caption */
 .post-caption-toggle {
   margin-left: 4px;
   color: var(--purple);
 }
 
+/* Body text for blog-style posts (multiple paragraphs) */
 .post-blog-body {
   margin: 4px 0 12px;
   font-size: 13px;
@@ -435,6 +539,7 @@ img { display: block; max-width: 100%; }
 .post-blog-body p { margin: 0 0 8px; }
 .post-blog-body p:last-child { margin: 0; }
 
+/* Action row at the bottom of a blog post — actions pushed to the right */
 .post-blog-actions {
   display: flex;
   justify-content: flex-end;
@@ -442,15 +547,24 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Comment drawer */
+/* ----------------------------------------------------------------
+   Comment drawer (bottom-sheet popup that opens when you tap the
+   comment icon on a post). Rendered into document.body via React
+   Portal so it can escape any transformed/overflow:hidden ancestor.
+   ---------------------------------------------------------------- */
+
+/* The dark translucent layer behind the drawer; tap it to close */
 .comment-backdrop {
   position: fixed;
-  inset: 0;
+  inset: 0;                                /* shorthand for top:0; right:0; bottom:0; left:0 */
   z-index: 1000;
   background: rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.2s ease;
 }
 
+/* The white-on-purple sheet that slides up from the bottom.
+   Top is set to 112px (status 36 + top nav 64 + ~12px buffer)
+   so the drawer doesn't cover the top nav. */
 .comment-drawer {
   position: fixed;
   top: 112px;
@@ -461,13 +575,14 @@ img { display: block; max-width: 100%; }
   max-width: 393px;
   z-index: 1001;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;                  /* header / list / form stack vertically */
   background: #241845;
   border-top: 1px solid rgba(145, 95, 255, 0.4);
-  border-radius: 16px 16px 0 0;
+  border-radius: 16px 16px 0 0;            /* rounded only on top corners */
   animation: slideUp 0.25s ease;
 }
 
+/* The tappable area holding the little gray "drag handle" pill */
 .drawer-handle-wrap {
   width: 100%;
   padding: 10px 0 4px;
@@ -475,6 +590,7 @@ img { display: block; max-width: 100%; }
   justify-content: center;
 }
 
+/* The visual handle pill itself */
 .drawer-handle {
   width: 40px;
   height: 4px;
@@ -482,6 +598,7 @@ img { display: block; max-width: 100%; }
   border-radius: 9999px;
 }
 
+/* "Comments" title row at the top of the drawer */
 .comment-header {
   padding: 4px 16px 8px;
   border-bottom: 1px solid rgba(145, 95, 255, 0.2);
@@ -495,12 +612,14 @@ img { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* Scrollable list area in the middle of the drawer */
 .comment-list {
-  flex: 1;
+  flex: 1;                                  /* fills the space between header + form */
   overflow-y: auto;
   padding: 12px 16px;
 }
 
+/* Centered placeholder shown when a post has no comments yet */
 .comment-empty {
   height: 100%;
   display: flex;
@@ -510,12 +629,14 @@ img { display: block; max-width: 100%; }
   color: var(--text-muted);
 }
 
+/* A single comment row — avatar circle on the left, text on the right */
 .comment-item {
   display: flex;
   gap: 10px;
   margin-bottom: 12px;
 }
 
+/* Round avatar showing the commenter's first initial */
 .comment-avatar {
   width: 28px;
   height: 28px;
@@ -530,6 +651,7 @@ img { display: block; max-width: 100%; }
   flex-shrink: 0;
 }
 
+/* The @username above a comment */
 .comment-author {
   margin: 0;
   font-size: 12.5px;
@@ -537,6 +659,7 @@ img { display: block; max-width: 100%; }
   color: var(--purple);
 }
 
+/* The comment body text */
 .comment-text {
   margin: 0;
   font-size: 13px;
@@ -544,6 +667,7 @@ img { display: block; max-width: 100%; }
   color: #b8b0c4;
 }
 
+/* The form at the bottom of the drawer for typing a new comment */
 .comment-form {
   padding: 12px;
   display: flex;
@@ -552,6 +676,7 @@ img { display: block; max-width: 100%; }
   border-top: 1px solid rgba(145, 95, 255, 0.2);
 }
 
+/* The pill-shaped text input */
 .comment-input {
   flex: 1;
   padding: 8px 16px;
@@ -565,6 +690,7 @@ img { display: block; max-width: 100%; }
 
 .comment-input::placeholder { color: var(--text-muted); }
 
+/* The send (paper-plane) button next to the input */
 .comment-send-btn {
   width: 40px;
   height: 40px;
@@ -574,12 +700,18 @@ img { display: block; max-width: 100%; }
   color: var(--purple);
 }
 
+/* Faded out when the input is empty (disabled state) */
 .comment-send-btn:disabled { opacity: 0.4; }
 
 
-/* Home: feed + grid + view toggle */
+/* ----------------------------------------------------------------
+   Home page — feed view, grid view, and the feed/grid toggle
+   ---------------------------------------------------------------- */
+
+/* Container for the stacked feed of full post cards */
 .post-feed { padding-top: 4px; }
 
+/* 2-column grid (alternate "explore"-style view) */
 .post-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -587,6 +719,7 @@ img { display: block; max-width: 100%; }
   padding: 10px 12px;
 }
 
+/* One image cell in the grid — kept square via aspect-ratio */
 .grid-image-item {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -595,12 +728,14 @@ img { display: block; max-width: 100%; }
   background: #241845;
 }
 
+/* The actual image inside a grid cell, fills the square */
 .grid-image-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* Dark gradient overlay holding the user info in a grid cell */
 .grid-image-overlay {
   position: absolute;
   top: 0;
@@ -610,6 +745,7 @@ img { display: block; max-width: 100%; }
   background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
 }
 
+/* Tiny user row (avatar + name) shown over each grid image */
 .grid-user-row {
   display: flex;
   align-items: center;
@@ -636,6 +772,7 @@ img { display: block; max-width: 100%; }
   color: #fff;
 }
 
+/* A blog-style cell in the grid (no image, just text) */
 .grid-blog-item {
   aspect-ratio: 1 / 1;
   padding: 10px;
@@ -670,6 +807,9 @@ img { display: block; max-width: 100%; }
   align-self: flex-start;
 }
 
+/* Wrapper that hovers the feed/grid toggle above the bottom bar.
+   pointer-events: none means clicks pass through everywhere EXCEPT
+   inside .view-toggle, which re-enables them. */
 .view-toggle-wrapper {
   position: fixed;
   bottom: 80px;
@@ -681,6 +821,7 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
 }
 
+/* The little floating toggle pill in the bottom-right */
 .view-toggle {
   position: absolute;
   right: 8px;
@@ -690,9 +831,10 @@ img { display: block; max-width: 100%; }
   padding: 4px 6px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 6px;
-  pointer-events: auto;
+  pointer-events: auto;       /* re-enable clicks here */
 }
 
+/* One toggle button inside the floating pill */
 .toggle-btn {
   width: 28px;
   height: 28px;
@@ -703,6 +845,7 @@ img { display: block; max-width: 100%; }
   color: var(--text-muted);
 }
 
+/* Active view gets a brighter purple icon + faint white background */
 .toggle-btn.is-active {
   color: var(--purple-glow);
   background: rgba(255, 255, 255, 0.1);
@@ -711,9 +854,14 @@ img { display: block; max-width: 100%; }
 .toggle-btn-icon { width: 18px; height: 18px; }
 
 
-/* Music page */
+/* ----------------------------------------------------------------
+   Music page (list of tracks)
+   ---------------------------------------------------------------- */
+
+/* Standard page padding — used by Music and other simple pages */
 .page-section { padding: 20px 16px; }
 
+/* Big "Music" / section heading at the top of the page */
 .section-title {
   margin: 0 0 16px;
   font-family: 'Syne', sans-serif;
@@ -722,12 +870,14 @@ img { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* Vertical list of track rows */
 .track-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* One track row: emoji icon on the left, title + meta on the right */
 .track-item {
   padding: 14px;
   background: var(--bg-card);
@@ -738,6 +888,7 @@ img { display: block; max-width: 100%; }
   gap: 12px;
 }
 
+/* The colored square holding the track's emoji */
 .track-emoji {
   width: 44px;
   height: 44px;
@@ -764,7 +915,9 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Saved (empty state) */
+/* ----------------------------------------------------------------
+   Saved page — empty state shown when the user has no saved items
+   ---------------------------------------------------------------- */
 .empty-state {
   padding: 64px 16px 0;
   display: flex;
@@ -793,12 +946,15 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Profile page */
+/* ----------------------------------------------------------------
+   Profile page header (avatar + name + bio + follower stats)
+   ---------------------------------------------------------------- */
 .profile-section {
   margin-bottom: 24px;
   text-align: center;
 }
 
+/* Large round avatar at the top of the profile */
 .profile-avatar-large {
   margin: 0 auto 10px;
   width: 72px;
@@ -828,6 +984,7 @@ img { display: block; max-width: 100%; }
   color: #b8b0c4;
 }
 
+/* Row of "123 Followers / 45 Following" style stats */
 .profile-stats {
   margin-top: 16px;
   display: flex;
@@ -850,17 +1007,24 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Animations */
+/* ----------------------------------------------------------------
+   Animation keyframes used by post cards + comment drawer
+   ---------------------------------------------------------------- */
+
+/* Post cards fade upward as they enter the viewport */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Comment-drawer backdrop fades in */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
+/* Comment drawer slides up from the bottom of the screen.
+   We translate -50% on X to preserve the existing centering. */
 @keyframes slideUp {
   from { transform: translate(-50%, 100%); }
   to   { transform: translate(-50%, 0); }
