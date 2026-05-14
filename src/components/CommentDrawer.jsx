@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Send } from 'lucide-react';
+import { ArrowUp, X } from 'lucide-react';
 
-export default function CommentDrawer({ open, onClose, post, comments }) {
+// This file makes the pop-up that slides up when you tap the comment icon on a post.
+// It shows the list of comments and lets the user type a new one.
+export default function CommentDrawer({ onClose, post, comments }) {
   const [draft, setDraft] = useState('');
 
   if (!comments) {
     comments = [];
   }
 
-  // This code is responsible for rendering the comment drawer and handling the comment input
+// This block stops the page behind the drawer from scrolling while the drawer is open, and 
+// lets it scroll again when the drawer closes.
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    document.body.style.overflow = 'hidden';
+    return () => {
       document.body.style.overflow = '';
-    }
-  }, [open]);
+    };
+  }, []);
 
-  if (!open) {
-    return null;
-  }
-
+// This function runs when the user submits a comment 
+// (either by pressing Enter or tapping the send button).This function runs when the user 
+// submits a comment (either by pressing Enter or tapping the send button).
   function handleSend(e) {
     e.preventDefault();
-    if (draft.trim() === '') {
-      return;
-    }
+    if (draft.trim() === '') return;
     setDraft('');
   }
 
-  
   return createPortal(
     <>
       <div onClick={onClose} className="comment-backdrop" />
@@ -42,6 +40,14 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
 
         <div className="comment-header">
           <h2>Comments</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="comment-close-btn"
+            aria-label="Close comments"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <div className="comment-list">
@@ -68,13 +74,16 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
             className="comment-input"
             placeholder="Comment"
             value={draft}
-            onChange={(e) => setDraft(e.target.value)}/>
+            onChange={(e) => setDraft(e.target.value)}
+          />
+
           <button
             type="submit"
             className="comment-send-btn"
             disabled={draft.trim() === ''}
-            aria-label="Send comment">
-            <Send size={18}/>
+            aria-label="Send comment"
+          >
+            <ArrowUp size={18}/>
           </button>
         </form>
       </div>

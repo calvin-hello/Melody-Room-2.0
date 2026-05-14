@@ -506,11 +506,20 @@ img { display: block; max-width: 100%; }
 /* A single action icon button (heart, comment, share) */
 .post-action-btn {
   display: flex;
-  color: #b8b0c4;
+  color: #e5e3e8;            /* soft off-white, matches the top-nav icons */
 }
 
-/* The heart turns red-pink once the user has liked the post */
-.post-action-btn.is-liked { color: var(--danger); }
+/* Size the lucide icons inside post action buttons */
+.post-action-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+
+
+/* The heart turns white (filled) once the user has liked the post */
+.post-action-btn.is-liked { color: #fff; }
 
 .post-action-icon { width: 18px; height: 18px; }
 
@@ -598,10 +607,14 @@ img { display: block; max-width: 100%; }
   border-radius: 9999px;
 }
 
-/* "Comments" title row at the top of the drawer */
+/* "Comments" title row at the top of the drawer.
+   Flex row so the title sits on the left and the X button sits on the right. */
 .comment-header {
   padding: 4px 16px 8px;
   border-bottom: 1px solid rgba(145, 95, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .comment-header h2 {
@@ -611,6 +624,17 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   color: var(--text);
 }
+
+/* The X close button on the right of the header */
+.comment-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
+}
+.comment-close-btn:hover { color: var(--text); }
 
 /* Scrollable list area in the middle of the drawer */
 .comment-list {
@@ -667,19 +691,22 @@ img { display: block; max-width: 100%; }
   color: #b8b0c4;
 }
 
-/* The form at the bottom of the drawer for typing a new comment */
+/* The form at the bottom of the drawer for typing a new comment.
+   `position: relative` so we can absolutely position the send button
+   INSIDE the input pill on the right. */
 .comment-form {
   padding: 12px;
   display: flex;
-  gap: 8px;
   align-items: center;
   border-top: 1px solid rgba(145, 95, 255, 0.2);
+  position: relative;
 }
 
-/* The pill-shaped text input */
+/* The pill-shaped text input.
+   Extra right padding (44px) leaves space for the round send button. */
 .comment-input {
   flex: 1;
-  padding: 8px 16px;
+  padding: 10px 48px 10px 16px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 9999px;
@@ -690,14 +717,21 @@ img { display: block; max-width: 100%; }
 
 .comment-input::placeholder { color: var(--text-muted); }
 
-/* The send (paper-plane) button next to the input */
+/* The send (up-arrow) button — sits INSIDE the input pill on the right.
+   Small purple circle that stands out against the dark input background. */
 .comment-send-btn {
-  width: 40px;
-  height: 40px;
+  position: absolute;
+  right: 18px;                     /* sits inside the pill, on the right edge */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;           /* perfect circle */
+  background: var(--purple);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--purple);
 }
 
 /* Faded out when the input is empty (disabled state) */
