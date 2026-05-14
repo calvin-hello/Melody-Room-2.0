@@ -1,78 +1,68 @@
-import express from "express"
+import express from "express";
 import Post from "../models/post.js";
-import Artist from "../models/artist.js";
-import Album from "../models/album.js";
-import Song from "../models/song.js";
 
 const router = express.Router();
 
-// GET /api/search
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const { name } = req.query;
-    const search = name ? name.trim() : '';
-    let results;
+    const q = req.query.q?.trim() || "";
 
-    if (search === '') {
-        const [artists, albums, songs, posts] = await Promise.all([
-                Artist.find()
-                    .sort({ createdAt: -1 })
-                    .limit(5)
-                    .select('name image'),
-                Album.find()
-                    .sort({ createdAt: -1 })
-                    .limit(5)
-                    .select('title artist coverImage')
-                    .populate('artist', 'name'),
-                Song.find()
-                    .sort({ createdAt: -1 })
-                    .limit(5)
-                    .select('title artist duration coverImage')
-                    .populate('artist', 'name'),
-                Post.find()
-                    .sort({ createdAt: -1 })
-                    .limit(5)
-                    .select('author authorType image'),
-            ]);
-
-        results = {
-            artists: artists,
-            albums: albums,
-            songs: songs,
-            posts: posts,
-        };
-    } else {
-        const regex = new RegExp(search, 'i');
-
-        const [artists, albums, songs, posts] = await Promise.all([
-                Artist.find({ name: regex })
-                    .limit(10)
-                    .select('name image'),
-                Album.find({ title: regex })
-                    .limit(10)
-                    .select('title artist coverImage')
-                    .populate('artist', 'name'),
-                Song.find({ title: regex })
-                    .limit(10)
-                    .select('title artist duration coverImage')
-                    .populate('artist', 'name'),
-                Post.find({ content: regex })
-                    .limit(10)
-                    .select('author authorType image'),
-            ]);
-
-        results = {
-            artists: artists,
-            albums: albums,
-            songs: songs,
-            posts: posts,
-        };
+    if (!q) {
+      return res.json({
+        artists: [],
+        albums: [],
+        songs: [],
+        posts: [],
+      });
     }
-    
-    res.json(results);
+
+    const regex = new RegExp(q, "i");
+
+    const [artistRes, albumRes, songRes, posts] = await Promise.all([
+      fetch(`https://api.deezer.com/search/artist?q=${encodeURIComponent(q)}`),
+      fetch(`https://api.deezer.com/search/album?q=${encodeURIComponent(q)}`),
+      fetch(`https://api.deezer.com/search?q=${encodeURIComponent(q)}`),
+      Post.find({ content: regex })
+        .limit(10)
+        .select("author authorType image content"),
+    ]);
+
+    const artistData = await artistRes.json();
+    const albumData = await albumRes.json();
+    const songData = await songRes.json();
+
+    res.json({
+      artists: (artistData.data || []).slice(0, 5).map((artist) => ({
+        _id: artist.id,
+        name: artist.name,
+        image: artist.picture_medium,
+      })),
+
+      albums: (albumData.data || []).slice(0, 5).map((album) => ({
+        _id: album.id,
+        title: album.title,
+        coverImage: album.cover_medium,
+        artist: {
+          name: album.artist?.name,
+        },
+      })),
+
+      songs: (songData.data || []).slice(0, 5).map((song) => ({
+        _id: song.id,
+        title: song.title,
+        duration: song.duration,
+        preview: song.preview,
+        coverImage: song.album?.cover_medium,
+        artist: {
+          name: song.artist?.name,
+        },
+      })),
+
+      posts,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-export default router
+export default router;

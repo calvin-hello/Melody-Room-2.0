@@ -21,8 +21,8 @@ export default function Search() {
         try {
             setLoading(true);
             const url = query
-                ? `http://localhost:5000/api/search?q=${encodeURIComponent(query)}`
-                : "http://localhost:5000/api/search";
+            ? `http://localhost:5000/api/search?q=${encodeURIComponent(query)}`
+            : "http://localhost:5000/api/search";
 
             const response = await fetch(url);
 
@@ -64,7 +64,7 @@ export default function Search() {
         <div className="search-page">
             <header className="search-nav">
                 <div className="status-row">
-                    <span>9:41</span>
+                    <span>{new Date().toLocaleTimeString()}</span>   
                     <span>⌁ ◒ ▬</span>
                 </div>
                 <div className="search-header">
