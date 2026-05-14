@@ -572,11 +572,13 @@ img { display: block; max-width: 100%; }
 }
 
 /* The white-on-purple sheet that slides up from the bottom.
-   Top is set to 112px (status 36 + top nav 64 + ~12px buffer)
-   so the drawer doesn't cover the top nav. */
+   `top` controls where the drawer starts.
+   - status bar takes the first 36px
+   - top nav takes the next 64px (so 100px total)
+   - we add extra buffer so the drawer sits comfortably BELOW the top nav. */
 .comment-drawer {
   position: fixed;
-  top: 112px;
+  top: 220px;                              /* drawer starts lower so the search bar + top of post stay visible */
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -601,20 +603,16 @@ img { display: block; max-width: 100%; }
 
 /* The visual handle pill itself */
 .drawer-handle {
-  width: 40px;
-  height: 4px;
+  width: 150px;
+  height: 5px;
   background: rgba(122, 110, 148, 0.5);
   border-radius: 9999px;
 }
 
-/* "Comments" title row at the top of the drawer.
-   Flex row so the title sits on the left and the X button sits on the right. */
+/* "Comments" title row at the top of the drawer */
 .comment-header {
   padding: 4px 16px 8px;
-  border-bottom: 1px solid rgba(145, 95, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  border-bottom: 1px solid #fff;        /* white divider line under the header */
 }
 
 .comment-header h2 {
@@ -622,19 +620,8 @@ img { display: block; max-width: 100%; }
   font-family: 'Syne', sans-serif;
   font-size: 15px;
   font-weight: 700;
-  color: var(--text);
+  color: #fff;                          /* white title */
 }
-
-/* The X close button on the right of the header */
-.comment-close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  color: var(--text-muted);
-}
-.comment-close-btn:hover { color: var(--text); }
 
 /* Scrollable list area in the middle of the drawer */
 .comment-list {
@@ -703,39 +690,40 @@ img { display: block; max-width: 100%; }
 }
 
 /* The pill-shaped text input.
-   Extra right padding (44px) leaves space for the round send button. */
+   Extra right padding leaves space for the up-arrow button on the right. */
 .comment-input {
   flex: 1;
   padding: 10px 48px 10px 16px;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid #fff;          /* white border */
   border-radius: 9999px;
-  color: var(--text);
+  color: #fff;                     /* white typed text */
   font-size: 13.5px;
   outline: none;
 }
 
-.comment-input::placeholder { color: var(--text-muted); }
+/* White placeholder ("Comment" text when empty) */
+.comment-input::placeholder { color: #fff; opacity: 0.8; }
 
 /* The send (up-arrow) button — sits INSIDE the input pill on the right.
-   Small purple circle that stands out against the dark input background. */
+   Just the arrow icon, no background circle. Always fully visible. */
 .comment-send-btn {
   position: absolute;
   right: 18px;                     /* sits inside the pill, on the right edge */
   top: 50%;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 9999px;           /* perfect circle */
-  background: var(--purple);
-  color: #fff;
+  width: 32px;
+  height: 32px;
+  background: none;                /* no purple circle */
+  color: #fff;                     /* white arrow */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Faded out when the input is empty (disabled state) */
-.comment-send-btn:disabled { opacity: 0.4; }
+/* Keep the arrow fully visible even when the input is empty (disabled).
+   `opacity: 1` overrides the default faded look. */
+.comment-send-btn:disabled { opacity: 1; }
 
 
 /* ----------------------------------------------------------------
