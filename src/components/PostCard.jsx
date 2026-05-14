@@ -100,6 +100,7 @@ export default function PostCard({ post, style }) {
     );
   }
 
+  // From CommentDrawer.jsx
   return (
     <div className="post-card" style={style}>
       {header}

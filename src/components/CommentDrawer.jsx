@@ -9,6 +9,7 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
     comments = [];
   }
 
+  // This code is responsible for rendering the comment drawer and handling the comment input
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';

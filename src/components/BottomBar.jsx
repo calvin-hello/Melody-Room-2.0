@@ -16,6 +16,7 @@ export default function BottomBar() {
     return 'bottom-tab';
   }
 
+  // This code is responsible for rendering the bottom navigation 
   return (
     <div className="bottom-bar">
       <button className={tabClass('/home')} onClick={() => navigate('/home')}>

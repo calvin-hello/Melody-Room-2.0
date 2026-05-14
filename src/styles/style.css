@@ -56,15 +56,63 @@ img { display: block; max-width: 100%; }
 .page-content {
   flex: 1;
   overflow-y: auto;
-  padding-top: 72px;     /* clears the top nav */
+  padding-top: 108px;    /* clears the status bar (36px) + top nav (64px) + breathing room */
   padding-bottom: 84px;  /* clears the bottom bar */
 }
 
 
-/* Top navigation */
-.top-nav {
+/* Fake iOS status bar — 9:41 + signal/wifi/battery row at the very top */
+.status-bar {
   position: fixed;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 393px;
+  height: 36px;
+  z-index: 51;                                       /* above the top nav */
+  background: #0a0414;                              /* black with a hint of dark purple */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);      /* strong dark shadow */
+}
+.status-time {
+  font-size: 14px;
+  font-weight: 600;
+}
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+/* make the lucide icons look filled / iOS-style */
+
+/* Signal bars + Wifi — fill the inside so they read as solid white shapes */
+.status-icons .lucide-signal-high,
+.status-icons .lucide-wifi {
+  fill: currentColor;
+  stroke-width: 1.5;
+}
+
+/* Battery — leave it as lucide's default outline + level bars (no fill).
+   Just give it a touch more size and a slightly thicker stroke so it
+   matches the visual weight of the signal/wifi icons. */
+.status-icons .lucide-battery-full {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.25;
+  fill: none;
+}
+
+/* Top navigation — pushed down 36px to sit below the status bar */
+.top-nav {
+  position: fixed;
+  top: 36px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -74,9 +122,27 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: flex-end;
   padding: 0 16px 8px;
-  background: rgba(36, 24, 69, 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
+  background: #0a0414;                              /* black with a hint of dark purple */
+  border: none;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);     /* strong dark shadow falling below the nav */
+}
+
+/* Center the Following / For You tabs evenly within the top nav */
+.top-nav .top-nav-row {
+  position: relative;
+}
+.top-nav .nav-tabs {
+  position: absolute;
+  left: 50%;
+  top: 30%;                  /* moved up a bit from 50% so tabs sit higher in the bar */
+  transform: translate(-50%, -50%);
+  white-space: nowrap;       /* never wrap the tabs onto two lines */
+}
+.top-nav .tab-btn {
+  min-width: 96px;           /* wider so 'For You' fits on one line at the bigger size */
+  text-align: center;
+  white-space: nowrap;
+  font-size: 17px;           /* bigger tab text */
 }
 
 .top-nav-row {
@@ -87,18 +153,19 @@ img { display: block; max-width: 100%; }
 }
 
 .nav-add-btn {
-  width: 32px;
-  height: 32px;
-  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  font-size: 40px;           /* even bigger + symbol */
+  line-height: 1;
   color: #b8b0c4;
 }
 
 .nav-tabs {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   font-family: 'Syne', sans-serif;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 17px;           /* bumped from 14px to make tabs bigger */
 }
 
 .tab-btn {
@@ -126,12 +193,16 @@ img { display: block; max-width: 100%; }
 
 .nav-bell {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #b8b0c4;
+}
+/* flip the message bubble horizontally so the tail sits on the opposite side */
+.nav-bell svg {
+  transform: scaleX(-1);
 }
 
 .nav-bell-icon { width: 22px; height: 22px; }
@@ -148,10 +219,10 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* Search bar */
+/* Search bar — pushed down: status bar (36) + top nav (64) */
 .search-wrapper {
   position: sticky;
-  top: 64px;
+  top: 100px;
   z-index: 40;
   padding: 10px 16px 6px;
 }
@@ -199,6 +270,7 @@ img { display: block; max-width: 100%; }
   background: rgba(145, 95, 255, 0.08);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(145, 95, 255, 0.2);
+  box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.85);  /* strong dark shadow rising above the bottom bar */
 }
 
 .bottom-tab {

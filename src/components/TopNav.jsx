@@ -1,5 +1,20 @@
 import React, { useState } from 'react';
-import { MessageCircle, Search } from 'lucide-react';
+import { MessageCircle, Search, Wifi, BatteryFull, SignalHigh } from 'lucide-react';
+
+function StatusBar() {
+  return (
+    <div className="status-bar">
+      <span className="status-time">9:41</span>
+
+      <div className="status-icons">
+        <SignalHigh size={16} />
+        <Wifi size={16} />
+        <BatteryFull size={18} />
+      </div>
+    </div>
+  );
+}
+
 
 export default function TopNav({ activeTab, setActiveTab }) {
   const [search, setSearch] = useState('');
@@ -21,6 +36,7 @@ export default function TopNav({ activeTab, setActiveTab }) {
 
   return (
     <>
+      <StatusBar />
       <nav className="top-nav">
         <div className="top-nav-row">
           <button className="nav-add-btn">＋</button>
