@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import "../styles/ListenPage.css";
+import "../styles/Listen.css";
 
 import {
   ArrowLeft,
@@ -13,7 +13,7 @@ import {
   Bookmark,
 } from "lucide-react";
 
-export default function ListenPage() {
+export default function Listen() {
   const { type, id } = useParams();
   const navigate = useNavigate();
   const audioRef = useRef(null);
