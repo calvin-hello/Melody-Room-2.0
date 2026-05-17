@@ -103,7 +103,7 @@ export default function App() {
         }
       />
 
-      <Route path="/listen/:type/:id" element={<ListenPage />} />
+      <Route path="/listen/:type/:id" element={<Listen />} />
     </Routes>
   );
 }
