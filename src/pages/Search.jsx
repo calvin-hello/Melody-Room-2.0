@@ -13,18 +13,12 @@ export default function Search() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-<<<<<<< HEAD
     // Load initial data
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     useEffect(() => {
         fetchSearchData();
     }, []);
 
-<<<<<<< HEAD
     // Function to consume the search API
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const fetchSearchData = async (query = "") => {
         try {
             setLoading(true);
@@ -49,28 +43,19 @@ export default function Search() {
         }
     };
 
-<<<<<<< HEAD
     // Handle search with debounce
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const handleSearch = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
 
-<<<<<<< HEAD
         // Debounce: wait 300ms before making the request
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(() => {
             fetchSearchData(query);
         }, 300);
     };
 
-<<<<<<< HEAD
     // Format song duration (seconds to mm:ss)
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const formatDuration = (seconds) => {
         if (!seconds) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -78,10 +63,7 @@ export default function Search() {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-<<<<<<< HEAD
     // Check if there is any content
-=======
->>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const hasContent = artists.length > 0 || albums.length > 0 || songs.length > 0 || posts.length > 0;
 
     return (
