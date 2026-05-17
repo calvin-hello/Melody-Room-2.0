@@ -13,10 +13,12 @@ export default function Search() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    // Load initial data
     useEffect(() => {
         fetchSearchData();
     }, []);
 
+    // Function to consume the search API
     const fetchSearchData = async (query = "") => {
         try {
             setLoading(true);
@@ -41,16 +43,19 @@ export default function Search() {
         }
     };
 
+    // Handle search with debounce
     const handleSearch = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
 
+        // Debounce: wait 300ms before making the request
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(() => {
             fetchSearchData(query);
         }, 300);
     };
 
+    // Format song duration (seconds to mm:ss)
     const formatDuration = (seconds) => {
         if (!seconds) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -58,6 +63,7 @@ export default function Search() {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+    // Check if there is any content
     const hasContent = artists.length > 0 || albums.length > 0 || songs.length > 0 || posts.length > 0;
 
     return (
