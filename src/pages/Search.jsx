@@ -13,18 +13,24 @@ export default function Search() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     // Load initial data
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     useEffect(() => {
         fetchSearchData();
     }, []);
 
+<<<<<<< HEAD
     // Function to consume the search API
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const fetchSearchData = async (query = "") => {
         try {
             setLoading(true);
             const url = query
-                ? `http://localhost:5000/api/search?q=${encodeURIComponent(query)}`
-                : "http://localhost:5000/api/search";
+            ? `http://localhost:5000/api/search?q=${encodeURIComponent(query)}`
+            : "http://localhost:5000/api/search";
 
             const response = await fetch(url);
 
@@ -43,19 +49,28 @@ export default function Search() {
         }
     };
 
+<<<<<<< HEAD
     // Handle search with debounce
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const handleSearch = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
 
+<<<<<<< HEAD
         // Debounce: wait 300ms before making the request
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(() => {
             fetchSearchData(query);
         }, 300);
     };
 
+<<<<<<< HEAD
     // Format song duration (seconds to mm:ss)
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const formatDuration = (seconds) => {
         if (!seconds) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -63,14 +78,17 @@ export default function Search() {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+<<<<<<< HEAD
     // Check if there is any content
+=======
+>>>>>>> f0dd8ce63cbea9f3d0b95b5d45ba1aa497f01bd9
     const hasContent = artists.length > 0 || albums.length > 0 || songs.length > 0 || posts.length > 0;
 
     return (
         <div className="search-page">
             <header className="search-nav">
                 <div className="status-row">
-                    <span>9:41</span>
+                    <span>{new Date().toLocaleTimeString()}</span>   
                     <span>⌁ ◒ ▬</span>
                 </div>
                 <div className="search-header">
@@ -112,7 +130,7 @@ export default function Search() {
                                         <div
                                             key={artist._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/artist/${artist._id}`)}
+                                            onClick={() => navigate(`/listen/artist/${artist._id}`)}
                                         >
                                             <div
                                                 className="search-thumb artist-thumb"
@@ -154,7 +172,7 @@ export default function Search() {
                                         <div
                                             key={album._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/album/${album._id}`)}
+                                            onClick={() => navigate(`/listen/album/${album._id}`)}
                                         >
                                             <div
                                                 className="search-thumb"
@@ -197,7 +215,7 @@ export default function Search() {
                                         <div
                                             key={song._id}
                                             className="search-item"
-                                            onClick={() => navigate(`/song/${song._id}`)}
+                                            onClick={() => navigate(`/listen/song/${song._id}`)}
                                         >
                                             <div
                                                 className="search-thumb"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, Send, User } from 'lucide-react';
+import { Heart, MessageSquareMore, SendHorizontal, User } from 'lucide-react';
 import CommentDrawer from './CommentDrawer.jsx';
 
 export default function PostCard({ post, style }) {
@@ -30,10 +30,10 @@ export default function PostCard({ post, style }) {
         <Heart size={18} fill={heartFill} />
       </button>
       <button className="post-action-btn" onClick={() => setShowComments(true)} aria-label="Comment">
-        <MessageCircle size={18} />
+        <MessageSquareMore size={18} />
       </button>
       <button className="post-action-btn" aria-label="Share">
-        <Send size={18} />
+        <SendHorizontal size={18} />
       </button>
     </div>
   );
@@ -100,16 +100,21 @@ export default function PostCard({ post, style }) {
     );
   }
 
+  // From CommentDrawer.jsx
   return (
     <div className="post-card" style={style}>
       {header}
       <div className="post-footer">{body}</div>
 
-      <CommentDrawer
-        open={showComments}
-        onClose={() => setShowComments(false)}
-        post={post}
-      />
-    </div>
+      {/* Only mount the drawer while it should be visible — when
+          showComments flips back to false the drawer unmounts and
+          its body-scroll-lock effect cleans up automatically. */}
+      {showComments && (
+        <CommentDrawer
+          onClose={() => setShowComments(false)}
+          post={post}
+        />
+      )}
+    </div>  
   );
 }

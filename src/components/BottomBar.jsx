@@ -7,6 +7,8 @@ export default function BottomBar() {
   const { pathname } = useLocation();
   const currentUser =JSON.parse(localStorage.getItem("user"));
 
+  const username = localStorage.getItem("username");
+  
   function tabClass(path) {
     if (pathname === path) {
       return 'bottom-tab is-active';
@@ -14,6 +16,7 @@ export default function BottomBar() {
     return 'bottom-tab';
   }
 
+  // This code is responsible for rendering the bottom navigation 
   return (
     <div className="bottom-bar">
       <button className={tabClass('/home')} onClick={() => navigate('/home')}>

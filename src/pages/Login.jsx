@@ -21,6 +21,8 @@ export default function Login() {
 
             const data = await response.json();
 
+            console.log("LOGIN DATA:", data);
+
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.user.username);
             localStorage.setItem("user",JSON.stringify(data.user));

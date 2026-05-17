@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Send } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
-export default function CommentDrawer({ open, onClose, post, comments }) {
+// This file makes the pop-up that slides up when you tap the comment icon on a post.
+// It shows the list of comments and lets the user type a new one.
+export default function CommentDrawer({ onClose, post, comments }) {
   const [draft, setDraft] = useState('');
 
   if (!comments) {
     comments = [];
   }
 
+// Stops the page behind the drawer from scrolling while open,
+// lets it scroll again when the drawer closes.
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    document.body.style.overflow = 'hidden';
+    return () => {
       document.body.style.overflow = '';
-    }
-  }, [open]);
+    };
+  }, []);
 
-  if (!open) {
-    return null;
-  }
+// Runs when the user submits a comment (Enter or tap send button), still work in-progress
 
   function handleSend(e) {
     e.preventDefault();
-    if (draft.trim() === '') {
-      return;
-    }
+    if (draft.trim() === '') return;
     setDraft('');
   }
 
-  
   return createPortal(
     <>
       <div onClick={onClose} className="comment-backdrop" />
@@ -67,13 +65,16 @@ export default function CommentDrawer({ open, onClose, post, comments }) {
             className="comment-input"
             placeholder="Comment"
             value={draft}
-            onChange={(e) => setDraft(e.target.value)}/>
+            onChange={(e) => setDraft(e.target.value)}
+          />
+
           <button
             type="submit"
             className="comment-send-btn"
             disabled={draft.trim() === ''}
-            aria-label="Send comment">
-            <Send size={18}/>
+            aria-label="Send comment"
+          >
+            <ArrowUp size={24}/>
           </button>
         </form>
       </div>
