@@ -96,4 +96,56 @@ router.get("/artist/:id", async (req, res) => {
   }
 });
 
+// make the song of the week of other stuff look more real
+let weeklyTracks = [];
+let lastUpdated = 0;
+
+router.get("/profile-music", async (req, res) => {
+  try { 
+    const now = Date.now();
+    if (weeklyTracks.length === 0 || now - lastUpdated > 60000) {
+      const response = await fetch(`https://api.deezer.com/chart/0/tracks`);
+      const data = await response.json();
+
+      const shuffled = data.data.sort(() => 0.5 - Math.random());
+      weeklyTracks = shuffled.slice(0, 4).map((song) => ({
+        id: song.id, 
+        title: song.title,
+        coverImage: song.album?.cover_medium,
+        artist: {
+           name: song.artist?.name,
+        },
+
+        album: {
+           title: song.album?.title,
+        },
+        
+      }));
+      lastUpdated = now;
+    }
+
+    const randomSong = weeklyTracks[Math.floor(Math.random() * weeklyTracks.length)];
+    const randomAlbumTrack = weeklyTracks[Math.floor(Math.random() * weeklyTracks.length)];
+
+    res.json({
+      weeklyTracks,
+
+      favSong: {
+        id: randomSong.id,
+        title: randomSong.title,
+        artist: randomSong.artist.name,
+        coverImage: randomSong.coverImage,
+      },
+      favAlbum: {
+        id: randomAlbumTrack.id,
+        title: randomAlbumTrack.album.title,
+        artist: randomAlbumTrack.artist.name,
+        coverImage: randomAlbumTrack.coverImage,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router;
