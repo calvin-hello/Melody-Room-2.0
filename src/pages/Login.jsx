@@ -5,10 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
 
         try {
             const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -17,19 +19,20 @@ export default function Login() {
                 body: JSON.stringify({ username, password })
             });
 
-            if (!response.ok) throw new Error("Login failed!");
+            if (response.ok === false) {
+                setError("Wrong username or password.");
+                return;
+            }
 
             const data = await response.json();
 
-            console.log("LOGIN DATA:", data);
-
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.user.username);
-            localStorage.setItem("user",JSON.stringify(data.user));
+            localStorage.setItem("user", JSON.stringify(data.user));
             navigate("/home");
-            
-        } catch (error) {
-            console.error("Login failed", error);
+
+        } catch (err) {
+            setError("Could not reach the server. Is the backend running on port 5000?");
         }
     };
 
@@ -62,6 +65,12 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+
+                {error && (
+                    <p style={{ color: "#ff9aa2", textAlign: "center", margin: "8px 0" }}>
+                        {error}
+                    </p>
+                )}
 
                 <button type="submit" className="purple-btn">Log in</button>
 

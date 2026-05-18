@@ -6,6 +6,7 @@ import userRoutes from './users.js';
 import musicRoutes from './Music.js';
 import searchRoutes from './search.js';
 import healthRoutes from './health.js';
+import commentRoutes from './comments.js';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use('/api', healthRoutes);
 router.use('/api/users', userRoutes);
 router.use('/api/music', musicRoutes);
 router.use('/api/search', searchRoutes);
+router.use('/api/comments', commentRoutes);
 
 export default router;
