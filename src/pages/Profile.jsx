@@ -31,6 +31,27 @@ const handleCancel = () => {
 const [following, setFollowing] = useState(false);
 const [followers, setFollowers] = useState(0);
 const [followingCount, setFollowingCount] = useState(0);
+const [weeklyTracks, setWeeklyTracks] = useState([]);
+const [favSong, setFavSong] = useState(null);
+const [favAlbum, setFavAlbum] = useState(null);
+useEffect(() => {
+  const fetchMusic = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/deezer/profile-music"
+      );
+      const data = await res.json();
+      setWeeklyTracks(data.weeklyTracks);
+      setFavSong(data.favSong);
+      setFavAlbum(data.favAlbum);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchMusic();
+}, []);
+
 useEffect(() => {
   const fetchUser = async () => {
     try {
@@ -254,34 +275,17 @@ if (!user) return null;
     )}
   </div>
 ) : (
-            <div className="track-row">
-              {[
-                {
-                  title: "Stronger",
-                  img: "https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg",
-                },
-                {
-                  title: "Heartless",
-                  img: "https://i1.sndcdn.com/artworks-vHzO7U4wUvlZ-0-t500x500.jpg",
-                },
-                {
-                  title: "POWER",
-                  img: "https://upload.wikimedia.org/wikipedia/en/f/f0/My_Beautiful_Dark_Twisted_Fantasy.jpg",
-                },
-                {
-                  title: "Gold Digger",
-                  img: "https://corp-assets-prod.skiomusic.com/assets/wishlist/kanye-west-gold-digger-remix-stem-pack.jpg",
-                },
-              ].map((song, i) => (
-                <div className="track" key={i}>
-                  <img src={song.img} alt={song.title} />
+           <div className="track-row">
+             {weeklyTracks.map((song) => (
+                <div className="track" key={song.id}>
+                  <img src={song.coverImage} alt={song.title} />
                   <p>{song.title}</p>
                 </div>
               ))}
-            </div>
-          )}
         </div>
-      )}
+    )}
+  </div>
+)}
 
 
 
@@ -315,12 +319,18 @@ if (!user) return null;
       </div>
     ) : (
       <div className="music-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYGfgThjkF_7BReF5JcX3plPXTPUjYNhkpCw&s" />
+          {favSong && (
+    <>
+      <img src={favSong.coverImage} />
 
-        <div>
-          <h4>Touch the Sky</h4>
-          <p>Kanye West</p>
-        </div>
+      <div>
+        <h4>{favSong.title}</h4>
+        <p>{favSong.artist}</p>
+      </div>
+    </>
+  )}
+       
+
       </div>
     )}
   </div>
@@ -357,12 +367,17 @@ if (!user) return null;
       </div>
     ) : (
       <div className="music-card">
-        <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg" />
+         {favAlbum && (
+              <>
 
-        <div>
-          <h4>Graduation</h4>
-          <p>Kanye West</p>
-        </div>
+          <img src={favAlbum.coverImage} />
+          <div>
+            <h4>{favAlbum.title}</h4>
+            <p>{favAlbum.artist}</p>
+          </div>
+              </>
+        )}
+
       </div>
     )}
   </div>
