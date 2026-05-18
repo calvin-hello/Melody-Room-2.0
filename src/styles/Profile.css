@@ -17,13 +17,27 @@
   margin-bottom: 15px;
 }
 
-.music-tag {
-  margin-top: 8px;
-  padding: 6px 14px;
-  border: 1px solid #a855f7;
-  border-radius: 20px;
-  display: inline-block;
+/* Smaller "My Profile" title to match the reference design */
+.profile-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Smaller @username below the title */
+.profile-header p {
+  margin: 2px 0 0;
   font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.music-tag {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: 1px solid #a855f7;
+  border-radius: 9999px;
+  display: inline-block;
+  font-size: 0.85rem;
 }
 
 .profile-card {
@@ -40,15 +54,64 @@
   margin-bottom: 6px;
 }
 
+.avatar-wrap {
+  position: relative;
+  flex-shrink: 0;             /* don't shrink the avatar when space gets tight */
+}
+
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  display: block;
+}
+
+/* Purple square edit button overlaid on the TOP-right of the avatar */
+.avatar-edit-btn {
+  position: absolute;
+  right: -4px;
+  top: -4px;                   /* moved from bottom to top */
+  width: 30px;
+  height: 30px;
+  background: #a855f7;
+  color: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #2a0f4a;   /* dark ring so it pops off the avatar */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 .right-side {
+  flex: 1;                         /* fill the space next to the avatar */
+  min-width: 0;                    /* allow text inside to shrink if needed */
   display: flex;
   flex-direction: column;
+}
+
+/* Name + pencil edit icon on one row */
+.right-side .name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.right-side .name-row h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.right-side .edit-icon {
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* The @handle under the name */
+.right-side .handle {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
 
 .stats {
@@ -75,19 +138,33 @@
 }
 
 .edit-btn {
-  display: block;
-  margin: 10px 110px;
+  align-self: flex-start;        /* sit on the left, not centered or pushed */
+  margin-top: 8px;
   background: #a855f7;
   border: none;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 8px;
   color: white;
   cursor: pointer;
+  white-space: nowrap;           /* keep "Edit profile" on one line */
+}
+
+.follow-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  background: #a855f7;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
 }
 .edit-actions {
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  flex-wrap: wrap;             /* if the row gets too tight, wrap rather than overflow */
 }
 
 .save-btn {
@@ -96,7 +173,8 @@
   padding: 8px 14px;
   border-radius: 8px;
   border: none;
-  margin-left: 110px;
+  white-space: nowrap;         /* keep "Save Changes" on one line */
+  cursor: pointer;
 }
 
 .cancel-btn {
@@ -105,18 +183,81 @@
   padding: 8px 14px;
   border-radius: 8px;
   border: none;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .section {
+  position: relative;            /* so the close button can sit in the top-right */
   background: linear-gradient(180deg, #5a2a82, #3b0764);
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 0;              /* square outer edges */
   margin-bottom: 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
 .section h3 {
-  margin-bottom: 10px;
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* Small purple circle "X" anchored to the top-right corner edge of the card.
+   Negative offsets push it so it half-overlaps the corner like the design. */
+.close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 5;                /* sit on top of anything else in the card */
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #a855f7;
+  color: #fff;
+  border: 2px solid #2a0f4a; /* dark ring so the circle pops off the card */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Outer row that holds the dark text box on the left and the Add to Feed
+   button on the right. No background here — only the <p> gets the dark box. */
+.hidden-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;                    /* more breathing room between text box and button */
+  padding: 0;
+  background: transparent;
+}
+
+/* The actual dark square that surrounds ONLY the "hidden from feed" text */
+.hidden-box p {
+  margin: 0;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+/* Purple "Add to Feed" button next to the hidden box */
+.add-btn {
+  background: #a855f7;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;            /* smaller padding */
+  border-radius: 0;             /* square edges */
+  font-size: 0.7rem;            /* smaller text */
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .track-row {

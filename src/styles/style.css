@@ -182,6 +182,28 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;       /* keep both tabs on one line */
 }
 
+/* On the profile page, the centered "My Profile" + @handle block.
+   Sits in the same spot the tabs would normally go. */
+.top-nav .nav-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+}
+.top-nav .nav-title-text {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.top-nav .nav-title-sub {
+  margin: 1px 0 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
 /* Make each tab button wide enough to hold "For You" without wrapping
    to a second line at the bigger 17px font size. */
 .top-nav .tab-btn {

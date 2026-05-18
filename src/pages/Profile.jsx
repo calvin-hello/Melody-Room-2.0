@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/Profile.css";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
+import { SquarePen } from "lucide-react";
 
 export default function Profile() {
 const currentUser =
@@ -160,37 +161,39 @@ if (!user) return null;
     
     <div className="profile-page">
 
-      {/* HEADER */}
+      {/* HEADER — "My Profile" + @handle now lives in the TopNav.
+          Only the music tag stays here. */}
       <div className="profile-header">
-        <h2>My Profile</h2>
-        <p>@{user.username}</p>
-
         <div className="music-tag">
           🎧 STRONGER | Kanye West
         </div>
-
       </div>
 
 
       <div className="profile-card">
   <div className="profile-top">
-    <img src={user.avatar} className="avatar" />
+    {/* Avatar wrapper — when in edit mode, shows a small purple edit
+        icon overlaid on the bottom-right corner that opens the file picker. */}
+    <div className="avatar-wrap">
+      <img src={user.avatar} className="avatar" />
+
+      {editMode && (
+        <label className="avatar-edit-btn" aria-label="Change avatar">
+          <SquarePen size={16} />
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleAvatarUpload}
+          />
+        </label>
+      )}
+    </div>
 
     {editMode ? (
       <div className="right-side edit-mode">
         <div className="name-row">
           <h2>{user.username}</h2>
-
-          <label className="edit-icon">
-           ✏️
-
-        <input
-         type="file"
-         accept="image/*"
-         style={{ display: "none" }}
-          onChange={handleAvatarUpload}
-          />
-          </label> {/* change the avatar */}
         </div>
 
         <p className="handle">@{user.username}</p>
@@ -209,37 +212,29 @@ if (!user) return null;
       </div>
     ) : (
       <div className="right-side">
-        <div className="stats">
-          <div>
-            <strong>{followers}</strong>
-            <p>followers</p>
-          </div>
-
-          <div>
-            <strong>{followingCount}</strong>
-            <p>following</p>
-          </div>
+        <div className="name-row">
+          <h2>{user.username}</h2>
         </div>
-        
+
+        <p className="handle">@{user.username}</p>
 
         <p className="bio">{user.bio}</p>
 
-{isOwnProfile ? (
-  <button
-    className="edit-btn"
-    onClick={() => setEditMode(true)}
-  >
-    Edit profile
-  </button>
-) : (
-<button
-  className="follow-btn"
-  onClick={handleFollow}
->
-  {following ? "Following" : "Follow"}
-</button>
-)}
-
+        {isOwnProfile ? (
+          <button
+            className="edit-btn"
+            onClick={() => setEditMode(true)}
+          >
+            Edit profile
+          </button>
+        ) : (
+          <button
+            className="follow-btn"
+            onClick={handleFollow}
+          >
+            {following ? "Following" : "Follow"}
+          </button>
+        )}
       </div>
     )}
   </div>
