@@ -137,7 +137,8 @@ const handleAvatarUpload = async (e) => {
     },
     {
       img: "",
-      title: "Need some new music, share some of your favourites!",
+      title: "This is a blog post title",
+      body: "Blog post displayed in a profile. Profile picture and username is not displayed. Instead, only the title and blog content.",
     },
     {
       img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=500",
@@ -145,11 +146,12 @@ const handleAvatarUpload = async (e) => {
     },
     {
       img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-      title: "Anyone else excited for this album release?",
+      title: "Anyone else excited for this to release?",
     },
     {
       img: "",
-      title: "Best music festivals in BC?",
+      title: "This is a blog post title",
+      body: "Blog post displayed in a profile. Profile picture and username is not displayed. Instead, only the title and blog content.",
     },
     {
       img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500",
@@ -378,22 +380,28 @@ if (!user) return null;
   </div>
 )}
 
-      <div className="section">
-        <h3>Posts</h3>
+      {/* Posts grid — sits directly on the page background, no surrounding box.
+          Adds an `is-edit-mode` class when the user is editing so the cards
+          switch from rounded to square (and blog cards show the body). */}
+      <div className="posts-section">
+        <h3 className="posts-title">POSTS</h3>
 
-        <div className="posts-grid">
+        <div className={`posts-grid ${editMode ? "is-edit-mode" : ""}`}>
           {posts.map((post, i) => (
             <div className="post-card" key={i}>
               {post.img ? (
-                <img src={post.img} />
+                <>
+                  {/* Image post: title overlay sits on TOP of the image */}
+                  <div className="post-overlay-top">{post.title}</div>
+                  <img src={post.img} />
+                </>
               ) : (
-                <div className="post-text">{post.title}</div>
-              )}
-
-              {post.img && (
-                <div className="post-overlay">
-                  {post.title}
-                </div>
+                <>
+                  {/* Blog post: title on top, body underneath (body is hidden
+                      via CSS when not in edit mode). */}
+                  <h4 className="post-blog-title">{post.title}</h4>
+                  <p className="post-blog-body">{post.body}</p>
+                </>
               )}
             </div>
           ))}
