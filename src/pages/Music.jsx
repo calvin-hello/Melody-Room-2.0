@@ -1,27 +1,44 @@
-import React from 'react';
-
-const tracks = [
-  { title: 'Midnight Bloom', artist: 'Cosmo Sheldrake', plays: '12.4K', emoji: '🎵' },
-  { title: 'Electric Soul',  artist: 'Jon Bellion',     plays: '9.8K',  emoji: '⚡' },
-  { title: 'Forest Echoes',  artist: 'Mother Mother',   plays: '8.7K',  emoji: '🌿' },
-];
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import "/src/styles/music.css";
 
 export default function MusicPage() {
-  return (
-    <div className="page-section">
-      <h2 className="section-title">Trending Music</h2>
+  const [songs, setSongs] = useState([]);
+  const navigate = useNavigate();
 
-      <div className="track-list">
-        {tracks.map((track, i) => (
-          <div key={i} className="track-item">
-            <div className="track-emoji">{track.emoji}</div>
-            <div>
-              <p className="track-title">{track.title}</p>
-              <p className="track-meta">{track.artist} · {track.plays} plays</p>
-            </div>
-          </div>
-        ))}
-      </div>
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/music/');
+        const data = await res.json();
+        setSongs(data.songs || []);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
+
+  return (
+    <div className="music-grid">
+      {songs.map((song) => (
+        <div
+          key={song._id}
+          className="music-card"
+          onClick={() => navigate(`/listen/song/${song._id}`)}
+        >
+          <div
+            className="music-cover"
+            style={{
+              backgroundImage: song.coverImage
+                ? `url(${song.coverImage})`
+                : 'none',
+            }}
+          />
+          <div className="music-name">{song.title}</div>
+        </div>
+      ))}
     </div>
-  );
+  )
 }

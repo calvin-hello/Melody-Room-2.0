@@ -73,6 +73,7 @@ export default function App() {
               <main className="page-content">
                 <Music />
               </main>
+              
               <BottomBar />
             </div>
           </ProtectedRoute>
